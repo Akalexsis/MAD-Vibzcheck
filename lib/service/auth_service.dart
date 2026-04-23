@@ -20,5 +20,21 @@ class AuthService {
         }
     }
 
+    // LOGIN - authenticate existing user
+    Future<void> login( String _email, String _password ) async {
+        try {
+           await _authService.signInWithEmailAndPassword(
+                email: _email,
+                password: _password
+           );
+        } on FirebaseAuthException catch (e){ // handle any errors
+            debugPrint(e.code);
+        }
+    }
+
+    // SIGNOUT - remove user access to app
+    void signOut() {
+        _authService.signOut();
+    }
 
 }
