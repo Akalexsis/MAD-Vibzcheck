@@ -8,7 +8,7 @@ class TracksModel {
     final int? id;
     final String name;
     final String artist;
-    final int votes;
+    final int? votes;
 
     TracksModel({
         this.id,
@@ -26,12 +26,21 @@ class TracksModel {
     };
 
     // convert track record to object
-    factory TracksModel.fromMap() => TracksModel(
-        id: id,
-        name: map['name'],
-        artist: map['artist'],
-        votes: map['votes']
-    )
+    factory TracksModel.fromMap() => {
+        return TracksModel(
+            id: id,
+            name: map['name'],
+            artist: map['artist'],
+            votes: map['votes']
+        );
+    }
 
     // convert json to track object to be used in database
+    factory TracksModel.fromJson(Map<String, dynamic> json) => {
+        return TracksModel(
+            id: (json[id] ?? '').toString(),
+            name: json[name].toString(),
+            artist: json[artist].toString(),
+        );
+    }
 }
