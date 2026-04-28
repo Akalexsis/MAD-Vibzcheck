@@ -2,19 +2,19 @@
     Author - Kayla Thornton
     Purpose - Pull tracks from Spotify API and store them in Firebase database
 */
-// import 'dart:core';
-
 class TracksModel {
     // create track object
     final int? id;
     final String name;
     final String artist;
+    final String? image;
     final int? votes;
 
     TracksModel({
         this.id,
         required this.name,
         required this.artist,
+        this.image,
         this.votes = 0 // default value
     });
 
@@ -24,6 +24,7 @@ class TracksModel {
             'id': id,
             'name': name,
             'artist': artist,
+            'image': image,
             'votes': votes
         };
     }
@@ -34,6 +35,7 @@ class TracksModel {
             id: map['id'],
             name: map['name'],
             artist: map['artist'],
+            image: map['image'],
             votes: map['votes']
         );
     }
