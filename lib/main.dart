@@ -7,6 +7,8 @@ import 'firebase_options.dart';
 import 'screens/register.dart';
 import 'screens/login.dart';
 import 'service/tracks_service.dart';
+import 'api_config.dart';
+import 'screens/playlist.dart';
 
 void main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +17,7 @@ void main() async {
     );
 
     // needed to get the access token to make Spotify API calls
-    await TracksService().getToken();
+    await AccessToken().getToken();
 
     runApp(const MyApp());
 }
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Vibz MAD Project',
-      home: MyHomePage(),
+      home: PlaylistPage(),
     );
   }
 }
