@@ -4,18 +4,18 @@
  */
 
 class PlaylistModel{
-    final int? id;
+    final String? id;
     final String sessionName;
     final String? desc;
     final List<String> songs = []; // will store list of song id's
-    final int userId;
+    final String uuid;
 
     const PlaylistModel({
         this.id,
         required this.sessionName,
         this.desc,
         this.songs,
-        required userId,
+        required uuid,
     })
 
     // convert dart object into firebase record
@@ -25,7 +25,7 @@ class PlaylistModel{
             "sessionName": sessionName,
             "desc": desc,
             "songs": songs,
-            "userId": userId,
+            "uuid": uuid,
         };
     }
     
@@ -36,18 +36,18 @@ class PlaylistModel{
             sessionName: map["sessionName"],
             desc: map["desc"],
             songs: map["songs"],
-            userId: map["userId"],
+            uuid: map["uuid"],
         );
     }
     
     // copywith - creates copy of updated values
-    PlaylistModel copyWith({int? id, String? sessionName, String? desc, List<String>? songs, int? userId}) {
+    PlaylistModel copyWith({int? id, String? sessionName, String? desc, List<String>? songs, int? uuid}) {
         return PlaylistModel(
             id: id ?? this.id,
             sessionName: sessionName ?? this.sessionName,
             desc: desc ?? this.desc,
             songs: songs ?? this.songs,
-            usrId: this.userId
+            usrId: this.uuid
         );
     }
 }
