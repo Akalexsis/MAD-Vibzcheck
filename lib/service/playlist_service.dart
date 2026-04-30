@@ -8,7 +8,7 @@ import '../firebase_options.dart';
 import '../model/playlist_model.dart';
 
 class PlaylistService{
-    final playlistRef = FirebaseFirestore.instance.collection('playlists');
+    final CollectionReference playlistRef = FirebaseFirestore.instance.collection('playlists');
 
     // get all playlists created by a specific user
 

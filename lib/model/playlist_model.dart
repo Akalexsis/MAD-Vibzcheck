@@ -7,19 +7,19 @@ class PlaylistModel{
     final String? id;
     final String sessionName;
     final String? desc;
-    final List<String> songs = []; // will store list of song id's
+    final List<String> songs; // will store list of song id's
     final String uuid;
 
-    const PlaylistModel({
+    PlaylistModel({
         this.id,
         required this.sessionName,
         this.desc,
-        this.songs,
-        required uuid,
-    })
+        this.songs = const [], // default is empty array
+        required this.uuid,
+    });
 
     // convert dart object into firebase record
-    Map toMap() {
+    Map<String, dynamic> toMap() {
         return {
             "id": id,
             "sessionName": sessionName,
@@ -41,13 +41,13 @@ class PlaylistModel{
     }
     
     // copywith - creates copy of updated values
-    PlaylistModel copyWith({int? id, String? sessionName, String? desc, List<String>? songs, int? uuid}) {
+    PlaylistModel copyWith({String? id, String? sessionName, String? desc, List<String>? songs, int? uuid}) {
         return PlaylistModel(
             id: id ?? this.id,
             sessionName: sessionName ?? this.sessionName,
             desc: desc ?? this.desc,
             songs: songs ?? this.songs,
-            usrId: this.uuid
+            uuid: this.uuid
         );
     }
 }

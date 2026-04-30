@@ -3,6 +3,8 @@
     Purpose - Capture session data and save it to database
  */
 import 'package:flutter/material.dart';
+import '../model/playlist_model.dart';
+import '../service/playlist_service.dart';
 import '../screens/playlist.dart';
 
 class SessionForm extends StatefulWidget {
@@ -14,8 +16,11 @@ class SessionForm extends StatefulWidget {
 
 class _SessionFormState extends State<SessionForm> {
     // TO-DO - GET USER ID 
+    String errors = '';
     // initialize model and service
     final _key = GlobalKey<FormState>();
+
+    final PlaylistService _playlistService = PlaylistService(); 
 
     // store form data
     final TextEditingController _nameController = TextEditingController();
@@ -31,21 +36,39 @@ class _SessionFormState extends State<SessionForm> {
     void getUserId() {
 
     }
+    
+    // create new playlist model and save it to database
+    Future<void> _createPlaylist() async {
+        PlaylistModel _newPlaylist = PlaylistModel(
+            sessionName: _nameController.text,
+            desc: _descController.text ?? '',
+            uuid: '1'
+        );
+        
+        try {
+            await _playlistService.addPlaylist(_newPlaylist);
+            // TO-DO - NAVIGATE TO PLAYLIST DETAILS PAGE
+
+
+        } catch (error) {
+            setState(() { errors = 'There was an error creating your playlist'; } );
+        }
+    }
 
     void _resetForm() {
         setState(() {
-            _nameController.text =  '',
-            _descController.text = ''
+            _nameController.text =  '';
+            _descController.text = '';
         });
     }
 
     // navigates user to session details page
     void _viewSession(BuildContext context) {
         _resetForm();
-        Navigator.push( 
-            context,
-            MaterialPageRoute( builder: (context) => Playlist() )
-        ); 
+        // Navigator.push( 
+        //     context,
+        //     MaterialPageRoute( builder: (context) => PlaylistPage() )
+        // ); 
     }
 
     @override
@@ -99,7 +122,7 @@ class _SessionFormState extends State<SessionForm> {
                             ElevatedButton(
                                 onPressed: () {
                                     if (_key.currentState!.validate()) {
-                                        _viewSession();
+                                        _createPlaylist();
                                     }
                                 },
                                 style: ElevatedButton.styleFrom(
