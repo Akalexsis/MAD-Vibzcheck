@@ -16,15 +16,24 @@ class PlaylistPage extends StatefulWidget {
 class _PlaylistPageState extends State<PlaylistPage> {
   // FOR TESTING ONLY - DELETE LATER
   String _testQuery = 'moonlight'; 
+  String errors = '';
+  // List<TracksModel> tracks = [];
 
-  static TracksService _trackService = TracksService();
+  // final TracksService _trackService = TracksService();
 
-  // pass search query to spotify api service
+  // pass search query to spotify api to get list of tracks
   Future<void> _searchTracks( String query ) async {
     // clean and parse input
-    // myString.trim(); // cleans string at beginning and end
-    // myString.replaceAll(' ', '+');
-    await _trackService.searchTracks( query );
+    query.trim(); // cleans string at beginning and end
+    query.replaceAll(' ', '+');
+    print(query);
+
+    try {
+      await _trackService.searchTracks( query );
+      
+    } catch (error) {
+      setState(() { errors = 'There was an error fetching tracks'; } );
+    }
   }
 
   @override

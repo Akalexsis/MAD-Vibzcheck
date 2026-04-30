@@ -2,6 +2,13 @@
     Author - Kayla Thornton
     Purpose - Pull tracks from Spotify API and store them in Firebase database
 */
+import 'dart:core';
+// convert json response to a track model
+List<TracksModel> tracksFromJson(Map<String, dynamic> data) {
+    List<TracksModel> tracks = data.map((res) => TracksModel.fromJson(res as Map<String, dynamic>)).toList();
+    return tracks;
+}
+
 class TracksModel {
     // create track object
     final int? id;
@@ -41,10 +48,12 @@ class TracksModel {
     }
 
     // convert json to track object to be used in database
-    // factory TracksModel.fromJson(Map<String, dynamic> json) => TracksModel(
-    //         id: (json["id"] ?? '').toString(),
-    //         name: json["name"].toString(),
-    //         artist: json["artist"].toString(),
-    //     );
+    factory TracksModel.fromJson(Map<String, dynamic> json) => 
+        TracksModel(
+            id: (json["items"]["id"] ?? '').toInt(),
+            name: (json["items"]["name"]).toString(),
+            artist: (json["items"]["artists"]["name"]).toString(), // handle if list of artists
+            image: (json["items"]["album"]["images"]["url"]).toString()
+        );
     
 }
