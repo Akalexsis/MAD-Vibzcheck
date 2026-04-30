@@ -3,7 +3,7 @@
     Purpose - Capture session data and save it to database
  */
 import 'package:flutter/material.dart';
-
+import '../screens/playlist.dart';
 
 class SessionForm extends StatefulWidget {
   const SessionForm({super.key,});
@@ -33,7 +33,26 @@ class _SessionFormState extends State<SessionForm> {
     }
 
     void _resetForm() {
+        setState(() {
+            _nameController.text =  '',
+            _descController.text = ''
+        });
+    }
 
+    // navigates user to session details page
+    void _viewSession(BuildContext context) {
+        _resetForm();
+        Navigator.push( 
+            context,
+            MaterialPageRoute( builder: (context) => Playlist() )
+        ); 
+    }
+
+    @override
+    void dispose() {
+        _nameController.dispose();
+        _descController.dispose();
+        super.dispose;
     }
 
     @override
@@ -80,14 +99,7 @@ class _SessionFormState extends State<SessionForm> {
                             ElevatedButton(
                                 onPressed: () {
                                     if (_key.currentState!.validate()) {
-                                        _resetForm();
-
-                                        // FOR TESTING - DELETE LATER
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar( content: Text('Playlist ${_nameController.text} created'), )
-                                        );
-
-                                        // TO - DO - REDIRECT USER TO PLAYLIST PAGE
+                                        _viewSession();
                                     }
                                 },
                                 style: ElevatedButton.styleFrom(
