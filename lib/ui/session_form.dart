@@ -13,7 +13,28 @@ class SessionForm extends StatefulWidget {
 }
 
 class _SessionFormState extends State<SessionForm> {
+    // TO-DO - GET USER ID 
     // initialize model and service
+    final _key = GlobalKey<FormState>();
+
+    // store form data
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _descController = TextEditingController();
+
+    @override
+    void initState() {
+        super.initState();
+        // getUserId();
+    }
+
+    // TO-DO - GET USER ID FROM SHARED PREFS
+    void getUserId() {
+
+    }
+
+    void _resetForm() {
+
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -21,11 +42,66 @@ class _SessionFormState extends State<SessionForm> {
             body: 
             Padding(
                 padding: EdgeInsets.all(16),
-                child: Column(
-                    children: [
-                        Text("New Listening Session", style: TextStyle( fontSize: 32, )),
-                    ],
-                ),
+                child: Form( // form accepts playlist data
+                    key: _key,
+                    child: Column(
+                        children: [
+                            Text('New Listening Session', style: TextStyle( fontSize: 32 )),
+                            SizedBox(height: 20),
+
+                            // PLAYLIST NAME INPUT
+                            TextFormField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                    labelText: 'Playlist Name',
+                                    border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                    if (value == null || value.isEmpty ) { 
+                                        return 'Playlist must have a name';
+                                    }
+                                    return null;
+                                }
+                            ),
+                            SizedBox(height: 16),
+
+                            // PLAYLIST DESCRIPTION
+                            TextFormField(
+                                controller: _descController,
+                                maxLines: 3,
+                                decoration: InputDecoration(
+                                    labelText: 'Describe your playlist (optional)',
+                                    border: OutlineInputBorder(),
+                                ),
+                            ),
+                            SizedBox(height: 16),
+
+                            // FORM VALIDATION
+                            ElevatedButton(
+                                onPressed: () {
+                                    if (_key.currentState!.validate()) {
+                                        _resetForm();
+
+                                        // FOR TESTING - DELETE LATER
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar( content: Text('Playlist ${_nameController.text} created'), )
+                                        );
+
+                                        // TO - DO - REDIRECT USER TO PLAYLIST PAGE
+                                    }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.purple,
+                                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                                ),
+                                child: const Text(
+                                    'Create',
+                                    style: TextStyle(fontSize: 18, color: Colors.white),
+                                ),
+                            ),
+                        ]
+                    )
+                )
             ),
         );
     }
