@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Vibz MAD Project',
-      home: MyHomePage(),
+      home: LoginPage(),
     );
   }
 }

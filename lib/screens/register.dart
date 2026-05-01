@@ -14,16 +14,46 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-   // initialize authentication service to use service methods
-   final AuthService _service = AuthService();
+  String errors = '';
 
-   // use authentication service to create new user
-   void register( String email, String password ) async {
-    await _service.register( email, password );
-    
-    // TO-DO - HANDLE ERRORS
-   }
+  final _key = GlobalKey<FormState>();
+  // initialize authentication service to use service methods
+  final AuthService _service = AuthService();
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPswdController = TextEditingController();
+
+  // use authentication service to create new user
+  void _register( String email, String password ) async {
+    try {
+      await _service.register( email, password );
+      // _toDashboard();
+    } catch (error) {
+     setState(() { errors = 'There was an error creating your account'; });
+    }
+  }
   
+  // route user to dashboard if registration sucessful
+  // void _toDashboard(BuildContext context) {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => Dashboard(),
+  //     ),
+  //   );
+  // }
+
+  @override
+  void dispose() {
+      _nameController.dispose();
+      _emailController.dispose();
+      _passwordController.dispose();
+      _confirmPswdController.dispose();
+      super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +62,117 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Center(
-          child: Column(
-            children: [
-              // TO-DO - ADD REGISTRATION FORM
+        child: Form( 
+            key: _key,
+            child: Column(
+                children: [
+                Text(
+                    'Create Account',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+
+                Text(
+                  errors.isNotEmpty ? errors : null, 
+                  style: TextStyle( fontSize: 18, color: Colors.red )
+                ),
+                SizedBox(height: 16),
+                
+                // NAME
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                      labelText: 'Full Name',
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                  if (value == null || value.isEmpty) {
+                      return 'Name is required';
+                  }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                
+                // EMAIL
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                      labelText: 'Email Address',
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                  if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                  }
+                  if (!value.contains('@')) {
+                      return 'Please enter a valid email';
+                  }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                
+                // 🔒 Password Field
+                TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                    if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                    }
+                    if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                    }
+                      return null;
+                    },
+                ),
+                const SizedBox(height: 16),
+
+                TextFormField(
+                  controller: _confirmPswdController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    // compare data in password field to value in this field
+                    if ( value == null  || value.isEmpty ) {
+                        return 'Please re-enter your password';
+                    }
+                    if ( value != _passwordController.text ) {
+                        return 'Passwords do not match';
+                    }
+                      return null;
+                  }
+                ),
+                const SizedBox(height: 24),
+                
+                //  Sign Up Button
+                ElevatedButton(
+                    onPressed: () {
+                      if (_key.currentState!.validate()) { 
+                        _register( _emailController.text, _passwordController.text );
+                      }   
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    ),
+                    child: const Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+              ),
             ],
           ),
         ),
