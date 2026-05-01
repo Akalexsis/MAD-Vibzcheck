@@ -5,8 +5,9 @@
 import 'package:flutter/material.dart';
 import '../ui/session_form.dart';
 import '../screens/dashboard.dart';
+import '../screens/playlist.dart';
 import '../screens/profile.dart';
-import '../screens/chatroom.dart';
+
 
 class MyNavigation extends StatelessWidget {
   const MyNavigation({super.key});
@@ -21,7 +22,7 @@ class MyNavigation extends StatelessWidget {
                 bottom: TabBar(
                     tabs: [
                         Tab(icon: Icon(Icons.home), text: 'Home'),
-                        Tab(icon: Icon(Icons.music_note), text: 'My Sessions'), // REPLACE WITH PLAYLISTS
+                        Tab(icon: Icon(Icons.music_note), text: 'Playlists'),
                         Tab(icon: Icon(Icons.person), text: 'Profile'),
                     ],
                 ),
@@ -29,7 +30,7 @@ class MyNavigation extends StatelessWidget {
             body: TabBarView(
                 children: [
                     Dashboard(),
-                    ChatroomPage(), // REPLACE WITH PLAYLISTS
+                    PlaylistPage(), // REPLACE WITH PLAYLISTS
                     ProfilePage(),
                 ]
             )

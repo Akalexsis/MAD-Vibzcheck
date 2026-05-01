@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import '../model/playlist_model.dart';
 import '../service/playlist_service.dart';
-import '../screens/playlist.dart';
+import 'playlist_details.dart';
 
 class SessionForm extends StatefulWidget {
   const SessionForm({super.key,});
@@ -66,7 +66,7 @@ class _SessionFormState extends State<SessionForm> {
     void _viewSession(BuildContext context, PlaylistModel _newPlaylist) {
         Navigator.push( 
             context,
-            MaterialPageRoute( builder: (context) => PlaylistPage( playlist: _newPlaylist ) )
+            MaterialPageRoute( builder: (context) => PlaylistDetailsPage( playlist: _newPlaylist ) )
         ); 
     }
 

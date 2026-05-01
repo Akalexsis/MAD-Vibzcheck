@@ -16,4 +16,9 @@ class PlaylistService{
     Future<void> addPlaylist(PlaylistModel playlist) async {
         await playlistRef.add(playlist.toMap());
     }
+
+    Stream<QuerySnapshot> getPlaylists() {
+        final _allPlaylists = playlistRef.snapshots();
+        return _allPlaylists;
+    }
 }

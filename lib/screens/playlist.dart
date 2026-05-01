@@ -1,84 +1,93 @@
 /*
     Author - Kayla Thornton
-    Purpose - to allow users to search for and save songs to a session
+    Purpose - Render all playlists to a user
  */
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // import '../model/tracks_model.dart';
 // import '../service/tracks_service.dart';
 import '../model/playlist_model.dart';
+import '../service/playlist_service.dart';
+import '../ui/playlist_details.dart';
 
 class PlaylistPage extends StatefulWidget {
-    final PlaylistModel playlist; 
-    const PlaylistPage({super.key, required this.playlist});
+    const PlaylistPage({super.key, });
 
     @override
     State<PlaylistPage> createState() => _PlaylistPageState();
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
-    late PlaylistModel playlist;
-    String errors = '';
-    
-    final TextEditingController _searchController = TextEditingController();
-    
-    @override
-    void initState() {
-        playlist = widget.playlist;
-        super.initState();
-    }
+    static PlaylistService _playlistService = PlaylistService();
 
-//   static TracksService _trackService = TracksService();
+    // direct user to details page to view more info on the specific playlist
+    void _viewDetails() {
 
-
-    // pass search query to spotify api service
-    Future<void> _searchTracks( String query ) async {
-        // clean and parse input
-        query.trim(); // cleans string at beginning and end
-        query.replaceAll(' ', '+');
-
-        try {
-            print(query);
-        } catch (error) {
-            setState(() { errors = 'There was an error fetching the song'; });
-        }
-        
     }
 
     @override
     Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-                children: [
-                    Text(playlist.sessionName, style: TextStyle( fontSize: 24 )),
-                    Text(playlist.desc.isEmpty ? '' : playlist.desc, style: TextStyle( fontSize: 12 )),
-                    SizedBox(height: 20),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: _playlistService.getPlaylists(),
+            builder: (context, snapshot) {
+                // render loading symbol if still waiting for response from firestore
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                }
+                // error handling
+                if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                // render all playlists from database
+                final docs = snapshot.data?.docs ?? [];
+                
+                // State 4: Collection is empty
+                if (docs.isEmpty) {
+                    return const Center(child: Text('No playlists yet.'));
+                }
 
-                    // SEARCH FIELD
-                    TextFormField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                        labelText: 'Search',
-                        border: OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                            icon: Icon( Icons.search ),
-                            onPressed: () { _searchTracks( _searchController.text ); }
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16),
+                return Text('Playlists');
+                // return list of items if everything goes correctly
+                // return ListView.builder(
+                //     itemCount: docs.length,
+                //     itemBuilder: (context, index) {
+                    
+                //     // convert returned playlist to object flutter can use
+                //     final playlist = PlaylistModel.fromMap(
+                //         docs[index].id,
+                //         docs[index].data() as Map<String, dynamic>,
+                //     );
 
-                    // TO-DO - ADD LISTENERS
+                //     return Column(
+                //         children: [
+                //             ListTile(
+                //                 leading: Icon(Icons.image),
+                //                 title: Text(
+                //                     playlist.sessionName,
+                //                     style: TextStyle( fontSize(18) ),
+                //                 ),
+                //                 subtitle: Text(
+                //                     playlist.desc ?? '',
+                //                     style: TextStyle( fontSize(12) ),
+                //                 )
+                //                 trailing: IconButton(
+                //                     icon: const Icon(Icons.delete_outline),
+                //                     onPressed: () { _viewDetails(); }
+                //                 ),
 
-                    // TO-DO - RENDER LIST OF SONGS
+                //             ),
+                //         ]
+                //     );
 
-                    Text("Up Next:", style: TextStyle( fontSize: 24 )),
-                    ],
-                ),
-            ),
+                        
+                    
+                //     }
+                // );
+            }
+        ),
         );
     }
 }
