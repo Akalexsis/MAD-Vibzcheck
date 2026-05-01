@@ -16,7 +16,7 @@ class AuthService {
                 password: _password
            );
         } on FirebaseAuthException catch (e){ // handle any errors
-            debugPrint(e.code);
+            throw Exception(e.code);
         }
     }
 
@@ -28,7 +28,8 @@ class AuthService {
                 password: _password
            );
         } on FirebaseAuthException catch (e){ // handle any errors
-            debugPrint(e.code);
+            throw Exception(e.code);
+            print(e.code);
         }
     }
 

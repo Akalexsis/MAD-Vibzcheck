@@ -6,14 +6,14 @@
 class PlaylistModel{
     final String? id;
     final String sessionName;
-    final String? desc;
+    final String desc;
     final List<String> songs; // will store list of song id's
     final String uuid;
 
     PlaylistModel({
         this.id,
         required this.sessionName,
-        this.desc,
+        this.desc = '',
         this.songs = const [], // default is empty array
         required this.uuid,
     });

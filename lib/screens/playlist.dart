@@ -54,7 +54,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
             child: Column(
                 children: [
                     Text(playlist.sessionName, style: TextStyle( fontSize: 24 )),
-                    Test(playlist.desc, style: TextStyle( fonstSize: 12 )),
+                    Text(playlist.desc.isEmpty ? '' : playlist.desc, style: TextStyle( fontSize: 12 )),
                     SizedBox(height: 20),
 
                     // SEARCH FIELD

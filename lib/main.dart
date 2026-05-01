@@ -6,13 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/register.dart';
 import 'screens/login.dart';
-import 'screens/profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+
   runApp(const MyApp());
 }
 
@@ -26,7 +24,6 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
     );
   }
-  
 }
 
 class MyHomePage extends StatefulWidget {

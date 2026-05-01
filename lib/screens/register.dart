@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
 import '../service/auth_service.dart';
+import 'dashboard.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -26,24 +27,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _confirmPswdController = TextEditingController();
 
   // use authentication service to create new user
-  void _register( String email, String password ) async {
+  void _register( BuildContext context, String _email, String _password ) async {
     try {
-      await _service.register( email, password );
-      // _toDashboard();
+      await _service.register( _email.trim(), _password.trim() );
+      _toDashboard(context);
     } catch (error) {
      setState(() { errors = 'There was an error creating your account'; });
     }
   }
   
   // route user to dashboard if registration sucessful
-  // void _toDashboard(BuildContext context) {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => Dashboard(),
-  //     ),
-  //   );
-  // }
+  void _toDashboard(BuildContext context) {
+    _nameController.clear();
+    _emailController.clear();
+    _passwordController.clear();
+    _confirmPswdController.clear();
+
+    Navigator.pushAndRemoveUntil( // prevent returning to landing page
+      context,
+      MaterialPageRoute( builder: (context) => Dashboard(), ),
+      (route) => false,
+    );
+  }
 
   @override
   void dispose() {
@@ -69,10 +74,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 SizedBox(height: 20),
 
-                // Text(
-                //   errors.isNotEmpty ? errors : null, 
-                //   style: TextStyle( fontSize: 18, color: Colors.red )
-                // ),
+                Text( errors.isEmpty ? '' : errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
                 SizedBox(height: 16),
 
                 // NAME
@@ -166,7 +168,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ElevatedButton(
                     onPressed: () {
                       if (_key.currentState!.validate()) { 
-                        _register( _emailController.text, _passwordController.text );
+                        _register( context, _emailController.text, _passwordController.text );
                       }   
                     },
                     style: ElevatedButton.styleFrom(

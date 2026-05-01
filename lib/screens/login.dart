@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../service/auth_service.dart';
-// import 'dashboard.dart';
+import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String errors = '';
-
   final _key = GlobalKey<FormState>();
+
   // initialize authentication service to use service methods
   final AuthService _service = AuthService();
 
@@ -24,24 +24,27 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // use authentication service to create new user
-  Future<void> _login( String email, String password ) async {
+  Future<void> _login( BuildContext context, String _email, String _password ) async {
     try {
-      await _service.login( email, password );
-      // _toDashboard(context);
+      await _service.login( _email.trim(), _password.trim() );
+      _toDashboard(context);
     } catch (error) {
-      setState(() { errors = 'There was an error logging you in'; });
+      setState(() { errors = "There was an error loggin you in"; });
     }
   }
 
   // navigates user to dashboard
-  // void _toDashboard(BuildContext context) {
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => Dashboard(),
-  //     ),
-  //   );
-  // }
+  void _toDashboard(BuildContext context) {
+    // reset form
+    _emailController.clear();
+    _passwordController.clear();
+
+    Navigator.pushAndRemoveUntil( // prevent returning to landing page
+      context,
+      MaterialPageRoute( builder: (context) => Dashboard(), ),
+      (route) => false,
+    );
+  }
 
   @override
   void dispose() {
@@ -62,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text('Login', style: TextStyle( fontSize: 24, ), ),
                 SizedBox(height: 20),
                 
-                // errors.isEmpty ? null : Text( errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
+                Text( errors.isEmpty ? '' : errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
                 SizedBox(height: 16),
 
                 // EMAIL FIELD
@@ -112,7 +115,9 @@ class _LoginPageState extends State<LoginPage> {
 
                 ElevatedButton(
                   onPressed: () {
-                  if (_key.currentState!.validate()) { }
+                  if (_key.currentState!.validate()) { 
+                    _login(context, _emailController.text, _passwordController.text);
+                  }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple,
