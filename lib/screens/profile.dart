@@ -23,17 +23,20 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
       body: Padding(
         padding: EdgeInsets.all(16),
-        child: Center(
-          child: Column(
-            children: [
-              // TO-DO - IMPLEMENT PROFILE UI
-            ],
-          ),
+        child: Column(
+          children: [
+            // Render user data
+            ListTile(
+              leading: Icon(Icons.person), // TO-DO - CHANGE ICON SIZE
+              title: Text('Username', style: TextStyle(fontSize:24)),
+              subtitle: Text('Email', style: TextStyle(fontSize:18, color: Colors.grey)),
+            ),
+            SizedBox(height: 30),
+
+          
+          ],
         ),
       )
       
