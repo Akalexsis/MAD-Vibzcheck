@@ -81,7 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   decoration: InputDecoration(
                       labelText: 'Full Name',
                       prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                   ),
                   validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -98,7 +100,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   decoration: InputDecoration(
                       labelText: 'Email Address',
                       prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                   ),
                   validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -119,7 +123,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     decoration: InputDecoration(
                       labelText: 'Password',
                       prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -139,7 +145,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   decoration: InputDecoration(
                       labelText: 'Confirm Password',
                       prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                   ),
                   validator: (value) {
                     // compare data in password field to value in this field

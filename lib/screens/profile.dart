@@ -62,10 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               ),
-              child: const Text(
-                'Sign Out',
-                style: TextStyle(fontSize: 18,),
-              ),
+              child: const Text('Sign Out', style: TextStyle(fontSize: 18,),),
             ),
           ],
         ),

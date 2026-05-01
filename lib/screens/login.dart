@@ -71,7 +71,9 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                         labelText: 'Email',
                         prefixIcon: Icon(Icons.email),
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                     ),
                     validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -92,7 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                         labelText: 'Password',
                         prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                     ),
                     validator: (value) {
                     if (value == null || value.isEmpty) {
