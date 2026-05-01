@@ -1,5 +1,6 @@
 /*
-    Purpose - Allow users to view their information
+  Author - Kayla Thornton
+  Purpose - Allow users to view their information
  */
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,9 +17,9 @@ class _ProfilePageState extends State<ProfilePage> {
    // initialize authentication service to use service methods
    final AuthService _service = AuthService();
 
-//    void signOut() {
-//     _service.signOut();
-//    }
+   void _signOut() {
+    _service.signOut();
+   }
   
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,37 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 30),
 
-          
+            ListTile(
+              leading: Text('Settings', style: TextStyle(fontSize:18,)),
+              trailing: Icon(Icons.chevron_right)
+              // TO-DO - IMPLEMENT ON TAP FUNCTION TO GO TO SETTINGS PAGE
+            ),
+            SizedBox(height: 16),
+
+            ListTile(
+              leading: Text('My Sessions', style: TextStyle(fontSize:18,)),
+              trailing: Icon(Icons.chevron_right)
+              // TO-DO - NAVIGATE TO LISTENING SESSIONS PAGE
+            ),
+            SizedBox(height: 16),
+
+            ListTile(
+              leading: Text('Friends', style: TextStyle(fontSize:18,)),
+              trailing: Icon(Icons.chevron_right)
+              // TO-DO - SHOW ALL FRIENDS
+            ),
+            SizedBox(height: 16),
+
+            ElevatedButton(
+              onPressed: () { _signOut(); },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              ),
+              child: const Text(
+                'Sign Out',
+                style: TextStyle(fontSize: 18,),
+              ),
+            ),
           ],
         ),
       )
