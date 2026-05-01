@@ -23,9 +23,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
     static PlaylistService _playlistService = PlaylistService();
 
     // direct user to details page to view more info on the specific playlist
-    void _viewDetails() {
-
-    }
+    void _viewDetails(BuildContext context, PlaylistModel _playlist) {
+        Navigator.push(
+            context,
+            MaterialPageRoute( builder: (context) => PlaylistDetailsPage( playlist: _playlist), )
+        );
+    }   
 
     @override
     Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                // render all playlists from database
+                // store all playlists returned from database
                 final docs = snapshot.data?.docs ?? [];
                 
                 // State 4: Collection is empty
@@ -49,43 +52,40 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     return const Center(child: Text('No playlists yet.'));
                 }
 
-                return Text('Playlists');
                 // return list of items if everything goes correctly
-                // return ListView.builder(
-                //     itemCount: docs.length,
-                //     itemBuilder: (context, index) {
+                return ListView.builder(
+                    itemCount: docs.length,
+                    itemBuilder: (context, index) {
                     
-                //     // convert returned playlist to object flutter can use
-                //     final playlist = PlaylistModel.fromMap(
-                //         docs[index].id,
-                //         docs[index].data() as Map<String, dynamic>,
-                //     );
+                    // convert returned playlist to object flutter can use
+                    final playlist = PlaylistModel.fromMap(
+                        docs[index].id,
+                        docs[index].data() as Map<String, dynamic>,
+                    );
 
-                //     return Column(
-                //         children: [
-                //             ListTile(
-                //                 leading: Icon(Icons.image),
-                //                 title: Text(
-                //                     playlist.sessionName,
-                //                     style: TextStyle( fontSize(18) ),
-                //                 ),
-                //                 subtitle: Text(
-                //                     playlist.desc ?? '',
-                //                     style: TextStyle( fontSize(12) ),
-                //                 )
-                //                 trailing: IconButton(
-                //                     icon: const Icon(Icons.delete_outline),
-                //                     onPressed: () { _viewDetails(); }
-                //                 ),
+                    return Column(
+                        children: [
+                            ListTile(
+                                leading: Icon(Icons.image),
+                                title: Text(
+                                    playlist.sessionName,
+                                    style: TextStyle( fontSize:18 ),
+                                ),
+                                subtitle: Text(
+                                    playlist.desc ?? '',
+                                    style: TextStyle( fontSize:12 ),
+                                ),
+                                // allow user to view playlist details on navigate
+                                onTap: () { _viewDetails(context, playlist); }
 
-                //             ),
-                //         ]
-                //     );
+                            ),
+                        ]
+                    );
 
                         
                     
-                //     }
-                // );
+                    }
+                );
             }
         ),
         );

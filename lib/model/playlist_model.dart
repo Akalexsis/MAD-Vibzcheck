@@ -7,7 +7,7 @@ class PlaylistModel{
     final String? id;
     final String sessionName;
     final String desc;
-    final List<String> songs; // will store list of song id's
+    final List<Map<String, dynamic>> songs; // will store list of song id's
     final String uuid;
 
     PlaylistModel({
@@ -30,18 +30,18 @@ class PlaylistModel{
     }
     
     // convert database record into dart object
-    factory PlaylistModel.fromMap(Map<String, dynamic> map) {
+    factory PlaylistModel.fromMap(String id, Map<String, dynamic> map) {
         return PlaylistModel(
             id: map["id"],
             sessionName: map["sessionName"],
             desc: map["desc"],
-            songs: map["songs"],
+            songs: List<Map<String, dynamic>>.from(map['songs'] ?? []),
             uuid: map["uuid"],
         );
     } 
     
     // copywith - creates copy of updated values
-    PlaylistModel copyWith({String? id, String? sessionName, String? desc, List<String>? songs, int? uuid}) {
+    PlaylistModel copyWith({String? id, String? sessionName, String? desc, List<Map<String, dynamic>>? songs, int? uuid}) {
         return PlaylistModel(
             id: id ?? this.id,
             sessionName: sessionName ?? this.sessionName,
