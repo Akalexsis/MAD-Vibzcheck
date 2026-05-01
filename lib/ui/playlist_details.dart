@@ -30,7 +30,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     void initState() {
         playlist = widget.playlist;
         super.initState();
-    }
+    } 
 
     // pass search query to spotify api service
     Future<void> _searchTracks( String query ) async {

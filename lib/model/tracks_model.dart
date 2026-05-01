@@ -9,7 +9,7 @@ class TracksModel {
     final String name;
     final String artist;
     final int votes;
-
+ 
     TracksModel({
         this.id,
         required this.name,

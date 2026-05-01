@@ -38,7 +38,7 @@ class PlaylistModel{
             songs: map["songs"],
             uuid: map["uuid"],
         );
-    }
+    } 
     
     // copywith - creates copy of updated values
     PlaylistModel copyWith({String? id, String? sessionName, String? desc, List<String>? songs, int? uuid}) {

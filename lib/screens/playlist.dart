@@ -17,7 +17,7 @@ class PlaylistPage extends StatefulWidget {
 
     @override
     State<PlaylistPage> createState() => _PlaylistPageState();
-}
+} 
 
 class _PlaylistPageState extends State<PlaylistPage> {
     static PlaylistService _playlistService = PlaylistService();

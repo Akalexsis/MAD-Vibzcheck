@@ -19,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
     void initState() {
         super.initState();
         // _getSessions();
-    }
+    } 
 
     // get all user sessions after logging in
     Future<void> _getSessions() async {

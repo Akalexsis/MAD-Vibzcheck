@@ -21,4 +21,4 @@ class PlaylistService{
         final _allPlaylists = playlistRef.snapshots();
         return _allPlaylists;
     }
-}
+} 
