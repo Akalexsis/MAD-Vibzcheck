@@ -62,12 +62,9 @@ class _LoginPageState extends State<LoginPage> {
                 Text('Login', style: TextStyle( fontSize: 24, ), ),
                 SizedBox(height: 20),
                 
-                Text(
-                  errors.isNotEmpty ? errors : null, 
-                  style: TextStyle( fontSize: 18, color: Colors.red )
-                ),
+                // errors.isEmpty ? null : Text( errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
                 SizedBox(height: 16),
-                
+
                 // EMAIL FIELD
                 TextFormField(
                     controller: _emailController,

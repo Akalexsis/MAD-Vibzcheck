@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Vibz MAD Project',
-      home: LoginPage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -36,7 +36,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
+  void _toLogin(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => LoginPage(),
+      ),
+    );
+  }
+
+  void _toRegistration(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => RegistrationPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +66,24 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(height: 20),
 
               Text('Sign-in or create a new account to get started', style: TextStyle( fontSize: 18 )),
-              SizedBox(height: 20)
+              SizedBox(height: 20),
 
-              // TO-DO - ADD NAVIGATION BUTTONS TO LOGIN AND REGISTRATION PAGES
+              ElevatedButton(
+                onPressed: () { _toLogin(context); },
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child: Text("Login", style: TextStyle( fontSize: 18 )),
+              ),
+              SizedBox(height: 16),
+
+              ElevatedButton(
+                onPressed: () { _toRegistration(context); },
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child: Text("Create Account", style: TextStyle( fontSize: 18 )),
+              ),
             ],
           ),
         ),

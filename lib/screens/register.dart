@@ -57,9 +57,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Account'),
-      ),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Form( 
@@ -67,17 +64,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
             child: Column(
                 children: [
                 Text(
-                    'Create Account',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  'Create Account',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
 
-                Text(
-                  errors.isNotEmpty ? errors : null, 
-                  style: TextStyle( fontSize: 18, color: Colors.red )
-                ),
+                // Text(
+                //   errors.isNotEmpty ? errors : null, 
+                //   style: TextStyle( fontSize: 18, color: Colors.red )
+                // ),
                 SizedBox(height: 16),
-                
+
                 // NAME
                 TextFormField(
                   controller: _nameController,
