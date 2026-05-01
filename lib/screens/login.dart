@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../service/auth_service.dart';
-import 'dashboard.dart';
+import '../ui/navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Navigator.pushAndRemoveUntil( // prevent returning to landing page
       context,
-      MaterialPageRoute( builder: (context) => Dashboard(), ),
+      MaterialPageRoute( builder: (context) => MyNavigation(), ),
       (route) => false,
     );
   }
