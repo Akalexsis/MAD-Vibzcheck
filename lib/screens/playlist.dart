@@ -18,10 +18,11 @@ class PlaylistPage extends StatefulWidget {
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
-    // FOR TESTING ONLY - DELETE LATER
-    String _testQuery = 'moonlight'; 
     late PlaylistModel playlist;
-
+    String errors = '';
+    
+    final TextEditingController _searchController = TextEditingController();
+    
     @override
     void initState() {
         playlist = widget.playlist;
@@ -33,34 +34,51 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
     // pass search query to spotify api service
     Future<void> _searchTracks( String query ) async {
-    // clean and parse input
-    // query.trim(); // cleans string at beginning and end
-    // query.replaceAll(' ', '+');
+        // clean and parse input
+        query.trim(); // cleans string at beginning and end
+        query.replaceAll(' ', '+');
 
-    // await _trackService.searchTracks( query );
+        try {
+            print(query);
+        } catch (error) {
+            setState(() { errors = 'There was an error fetching the song'; });
+        }
+        
     }
 
     @override
     Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text('Playlist'),
-        ),
         body: Padding(
             padding: EdgeInsets.all(16),
-            child: Center(
-                child: Column(
+            child: Column(
                 children: [
-                    // TO-DO - IMPLEMENT PLAYLIST UI
-                    ElevatedButton(
-                    onPressed: () { _searchTracks( _testQuery ); },
-                    child: Text('Test')
-                    )
-                ],
+                    Text(playlist.sessionName, style: TextStyle( fontSize: 24 )),
+                    Test(playlist.desc, style: TextStyle( fonstSize: 12 )),
+                    SizedBox(height: 20),
+
+                    // SEARCH FIELD
+                    TextFormField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                        labelText: 'Search',
+                        border: OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                            icon: Icon( Icons.search ),
+                            onPressed: () { _searchTracks( _searchController.text ); }
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // TO-DO - ADD LISTENERS
+
+                    // TO-DO - RENDER LIST OF SONGS
+
+                    Text("Up Next:", style: TextStyle( fontSize: 24 )),
+                    ],
                 ),
             ),
-            )
-            
         );
     }
 }

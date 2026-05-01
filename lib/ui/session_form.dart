@@ -42,13 +42,13 @@ class _SessionFormState extends State<SessionForm> {
         PlaylistModel _newPlaylist = PlaylistModel(
             sessionName: _nameController.text,
             desc: _descController.text ?? '',
-            uuid: '1'
+            uuid: '2'
         );
         
         try {
             await _playlistService.addPlaylist(_newPlaylist);
-            // TO-DO - NAVIGATE TO PLAYLIST DETAILS PAGE
-
+            _resetForm();
+            _viewSession(context, _newPlaylist);
 
         } catch (error) {
             setState(() { errors = 'There was an error creating your playlist'; } );
@@ -57,18 +57,17 @@ class _SessionFormState extends State<SessionForm> {
 
     void _resetForm() {
         setState(() {
-            _nameController.text =  '';
-            _descController.text = '';
+            _nameController.clear();
+            _descController.clear();
         });
     }
 
     // navigates user to session details page
-    void _viewSession(BuildContext context) {
-        _resetForm();
-        // Navigator.push( 
-        //     context,
-        //     MaterialPageRoute( builder: (context) => PlaylistPage() )
-        // ); 
+    void _viewSession(BuildContext context, PlaylistModel _newPlaylist) {
+        Navigator.push( 
+            context,
+            MaterialPageRoute( builder: (context) => PlaylistPage( playlist: _newPlaylist ) )
+        ); 
     }
 
     @override
