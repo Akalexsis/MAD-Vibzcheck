@@ -36,7 +36,7 @@ class _SessionFormState extends State<SessionForm> {
     void getUserId() {
 
     }
-     
+
     // create new playlist model and save it to database
     Future<void> _createPlaylist() async {
         PlaylistModel _newPlaylist = PlaylistModel(
@@ -74,7 +74,7 @@ class _SessionFormState extends State<SessionForm> {
     void dispose() {
         _nameController.dispose();
         _descController.dispose();
-        super.dispose;
+        super.dispose();
     }
 
     @override

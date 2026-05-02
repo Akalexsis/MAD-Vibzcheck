@@ -72,7 +72,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                     style: TextStyle( fontSize:18 ),
                                 ),
                                 subtitle: Text(
-                                    playlist.desc ?? 'Contains ', // list artists, moods, or genres if no desc
+                                    playlist.desc ?? 'Contains ', // BUG-FIX list artists, moods, or genres if no desc
                                     style: TextStyle( fontSize:12 ),
                                 ),
                                 // allow user to view playlist details on navigate

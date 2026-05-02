@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../service/auth_service.dart';
+import '../main.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,6 +20,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
    void _signOut() {
     _service.signOut();
+    
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute( builder: (context) => MyApp()),
+      (route) => false
+    );
    }
   
   @override
