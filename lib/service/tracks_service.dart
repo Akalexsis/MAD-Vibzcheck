@@ -22,7 +22,7 @@ class TracksService {
         final uri = _searchUrl.replace(queryParameters: {
             'q': '$query',
             'type': [ "track",], // fields users can search across
-            'limit': "1",
+            'limit': "5",
             'include_external': 'audio' // should make content playable
         });
 
@@ -38,12 +38,9 @@ class TracksService {
 
         final body = json.decode(response.body);
         final List data = body["tracks"]["items"] as List<dynamic>;
-        print("Data: $data");
 
         // convert each item in list to dart object
-        final List<TracksModel> tracks = data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
-        print('Tracks: $tracks');
-        return tracks;
+        return data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
     }
 
     // save requested song to database and add to session queue

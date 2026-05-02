@@ -26,17 +26,33 @@ class _TracksPageState extends State<TracksPage> {
     // pass search query to spotify api service
     Future<void> _searchTracks( String query ) async {
         // clean and parse input
-        query = query.trim(); // cleans string at beginning and end
+        query = query.trim(); 
         query = query.replaceAll(' ', '+');
 
         try {
             List<TracksModel> response = await _trackService.searchTracks(query);
             setState(() { tracks = response; } );
-            print("Tracks: $tracks");
         } catch (error) {
             setState(() { errors = 'There was an error fetching the song'; });
         }
         
+    }
+
+    // add song to playlist
+    Future<void> _addSong( TracksModel track ) async {
+        try {
+            await _trackService.addTrack(track);
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text('Successfully added ${track.name} to playlist'),
+                    duration: const Duration(milliseconds: 1200),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+            );
+        } catch (error) {
+            setState(() { errors = 'There was an error fetching the song'; });
+        }
     }
 
     // TO-DO - ADD VOTING
@@ -61,26 +77,23 @@ class _TracksPageState extends State<TracksPage> {
                     ),
                     SizedBox(height: 30),
 
-                    // FutureBuilder(
-                    //     future: _searchTracks( _testQuery ),
-                    //     builder: (context, snapshot) {
-                    //         // TO-DO - ADD UI HERE
-                    //     }
-                    // ),
                     // iterate over each response and render to the screen
                     ListView.builder(
-                        // TO-DO - CONVERT EACH ELEMENT INTO A LIST TILE, ON ADD, SAVE TO PLAYLIST
                         itemCount: tracks.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                             if ( tracks.length == 0 ) { return Text('No tracks found that matched your search'); }
 
                             final track = tracks[index];
-                            return Column(
-                                children: [
-                                    Text(track.name),
-                                    Text(track.artist)
-                                ]
+
+                            return ListTile(
+                                leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
+                                title: Text(track.name, style: TextStyle(fontSize: 18) ),
+                                subtitle: Text(track.artist, style: TextStyle(fontSize: 18, color: Colors.grey) ),
+                                trailing: IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () { _addSong(track); },
+                                )
                             );
                             
                         }
