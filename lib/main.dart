@@ -4,9 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'ui/navigation.dart';
 import 'screens/register.dart';
 import 'screens/login.dart';
-import 'service/tracks_service.dart';
 import 'api_config.dart';
 import 'screens/tracks.dart';
+import 'ui/playlist_details.dart';
 
 void main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
-      home: MyNavigation(),
+      home: PlaylistDetailsPage(),
     );
   }
   

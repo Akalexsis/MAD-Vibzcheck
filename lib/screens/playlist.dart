@@ -1,6 +1,6 @@
 /*
     Author - Kayla Thornton
-    Purpose - Render all playlists to a user
+    Purpose - Render all user playlists
  */
 
 import 'package:flutter/material.dart';
