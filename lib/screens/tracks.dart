@@ -16,6 +16,7 @@ class TracksPage extends StatefulWidget {
 
 class _TracksPageState extends State<TracksPage> {
     // FOR TESTING ONLY, DELETE LATER
+    List<TracksModel> tracks = [];
     String _testQuery = 'moonlight';
     String errors = '';
     
@@ -27,10 +28,11 @@ class _TracksPageState extends State<TracksPage> {
         // clean and parse input
         query = query.trim(); // cleans string at beginning and end
         query = query.replaceAll(' ', '+');
-        print(query);
 
         try {
-            await _trackService.searchTracks(query);
+            List<TracksModel> response = await _trackService.searchTracks(query);
+            setState(() { tracks = response; } );
+            print("Tracks: $tracks");
         } catch (error) {
             setState(() { errors = 'There was an error fetching the song'; });
         }
@@ -50,14 +52,39 @@ class _TracksPageState extends State<TracksPage> {
             child: Center(
             child: Column(
                 children: [
-                // TO-DO - IMPLEMENT Tracks UI
-                Text( errors.isEmpty ? '' : errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
-                SizedBox(height: 16),
+                    Text( errors.isEmpty ? '' : errors, style: TextStyle( fontSize: 18, color: Colors.red ) ),
+                    SizedBox(height: 16),
 
-                ElevatedButton(
-                    onPressed: () { _searchTracks( _testQuery ); },
-                    child: Text('Test')
-                )
+                    ElevatedButton(
+                        onPressed: () { _searchTracks( _testQuery ); },
+                        child: Text('Test')
+                    ),
+                    SizedBox(height: 30),
+
+                    // FutureBuilder(
+                    //     future: _searchTracks( _testQuery ),
+                    //     builder: (context, snapshot) {
+                    //         // TO-DO - ADD UI HERE
+                    //     }
+                    // ),
+                    // iterate over each response and render to the screen
+                    ListView.builder(
+                        // TO-DO - CONVERT EACH ELEMENT INTO A LIST TILE, ON ADD, SAVE TO PLAYLIST
+                        itemCount: tracks.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                            if ( tracks.length == 0 ) { return Text('No tracks found that matched your search'); }
+
+                            final track = tracks[index];
+                            return Column(
+                                children: [
+                                    Text(track.name),
+                                    Text(track.artist)
+                                ]
+                            );
+                            
+                        }
+                    ),
                 ],
             ),
             ),

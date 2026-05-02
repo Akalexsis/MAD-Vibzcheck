@@ -3,19 +3,20 @@
     Purpose - Fetch songs from Spotify using Spotify API and save data to database
 */
 import 'dart:convert';
-import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/tracks_model.dart';
 import '../api_config.dart';
 
 class TracksService {
-    final AccessToken _token = AccessToken(); // get api token instance
+    final AccessToken _token = AccessToken(); 
+    final CollectionReference tracksRef = FirebaseFirestore.instance.collection('tracks');
+
     static final _searchUrl = Uri.parse('https://api.spotify.com/v1/search'); // spotify search endpoint
 
     // search for requested song from spotify
     Future<List<TracksModel>> searchTracks( String query ) async {
-        // need token to make api calls to spotify
         final accessToken = await _token.token;
 
         final uri = _searchUrl.replace(queryParameters: {
@@ -29,22 +30,26 @@ class TracksService {
             uri,
             headers: { "Authorization": "Bearer  $accessToken" }
         );
-        print("service response: $response");
 
         // throw an error if fetch unsuccessful
         if ( response.statusCode != 200 ) {
-            print(response);
             throw Exception('Request for ${query} unsuccessful');
         }
 
-        final body = json.decode(response.body) as Map<String, dynamic>;
-        final List data = body["tracks"]["items"]; // parse response 
+        final body = json.decode(response.body);
+        final List data = body["tracks"]["items"] as List<dynamic>;
+        print("Data: $data");
 
         // convert each item in list to dart object
-        return data.map((track) => TracksModel.fromJson(track)).toList();
+        final List<TracksModel> tracks = data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
+        print('Tracks: $tracks');
+        return tracks;
     }
 
     // save requested song to database and add to session queue
+    Future<void> addTrack( TracksModel track ) async {
+        await tracksRef.add(track.toMap());
+    }
 
     // update vote count
 }

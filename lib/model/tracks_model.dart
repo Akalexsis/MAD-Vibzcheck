@@ -2,11 +2,6 @@
     Author - Kayla Thornton
     Purpose - Pull tracks from Spotify API and store them in Firebase database
 */
-// convert each item in json response to a track model
-// List<TracksModel> tracksFromJson(List data) {
-//    List<TracksModel> tracks = data.map((track) => TracksModel.fromJson(track)).toList();
-//    return tracks;
-// }
 
 class TracksModel {
     // create track object
@@ -51,10 +46,9 @@ class TracksModel {
         return TracksModel(
             id: json["id"],
             name: json["name"],
-            artist: json["artists"]["name"], // handle if list of artists
-            image: json["album"]["images"]["url"],
-            // votes: 0
+            artist: json["artists"][0]["name"], // handle if list of artists
+            image: json["album"]["images"][0]["url"],
+            votes: 0
         );
     }
-    
 }
