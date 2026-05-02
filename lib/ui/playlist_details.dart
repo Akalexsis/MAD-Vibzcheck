@@ -37,6 +37,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         // clean and parse input
         query.trim(); // cleans string at beginning and end
         query.replaceAll(' ', '+');
+        print(query);
 
         try {
             print(query);
@@ -49,14 +50,15 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     @override
     Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar( title: Text('') ),
         body: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                     Text(playlist.sessionName, style: TextStyle( fontSize: 24 )),
-                    Text(playlist.desc.isEmpty ? '' : playlist.desc, style: TextStyle( fontSize: 12 )),
-                    SizedBox(height: 20),
+                    Text(playlist.desc.isEmpty ? '' : playlist.desc, style: TextStyle( fontSize: 18 )),
+                    SizedBox(height: 50),
 
                     // SEARCH FIELD
                     TextFormField(
@@ -70,13 +72,13 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 30),
 
                     // TO-DO - ADD LISTENERS
 
-                    // TO-DO - RENDER LIST OF SONGS
-
                     Text("Up Next:", style: TextStyle( fontSize: 24 )),
+
+                    // TO-DO - RENDER LIST OF SONGS
                     ],
                 ),
             ),
