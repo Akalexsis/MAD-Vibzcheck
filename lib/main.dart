@@ -8,7 +8,7 @@ import 'screens/register.dart';
 import 'screens/login.dart';
 import 'service/tracks_service.dart';
 import 'api_config.dart';
-import 'screens/playlist.dart';
+import 'screens/tracks.dart';
 
 void main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Vibz MAD Project',
-      home: PlaylistPage(),
+      home: TracksPage(),
     );
   }
 }
