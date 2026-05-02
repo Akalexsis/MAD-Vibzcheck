@@ -48,5 +48,11 @@ class TracksService {
         await tracksRef.add(track.toMap());
     }
 
+    // TO-DO - GET LIST OF TRACKS FROM FIRESTORE
+    Stream<QuerySnapshot> getTracks() {
+        final queue = tracksRef.snapshots();
+        return queue;
+    }
+
     // update vote count
 }

@@ -9,7 +9,6 @@ import '../model/tracks_model.dart';
 import '../service/tracks_service.dart';
 import '../model/playlist_model.dart';
 import '../service/playlist_service.dart';
-import '../screens/tracks.dart';
 
 class PlaylistDetailsPage extends StatefulWidget {
     final PlaylistModel playlist; 
@@ -21,7 +20,7 @@ class PlaylistDetailsPage extends StatefulWidget {
 
 class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     late PlaylistModel playlist;
-    List<TracksModel> tracks = [];
+    List<TracksModel> tracks = []; // render list of searched tracks
     String errors = '';
     final TextEditingController _searchController = TextEditingController();
 
@@ -61,7 +60,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
             );
-            setState(() {tracks = []; })
+            setState(() { tracks = []; });
         } catch (error) {
             setState(() { errors = 'There was an error fetching the song'; });
         }
@@ -93,7 +92,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                             ),
                         ),
                         ),
-                        // render list of tracks
+                        // render list of tracks from search
                         ListView.builder(
                             itemCount: tracks.length,
                             shrinkWrap: true,
@@ -118,7 +117,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
 
                         Text("Up Next:", style: TextStyle( fontSize: 24 )),
 
-                        // TO-DO - RENDER LIST OF SONGS
+                        // TO-DO - RENDER LIST OF SONGS IN QUEUE
                         ],
                     ),
                 )
