@@ -31,7 +31,7 @@ class TracksModel {
     }
 
     // convert track record to object
-    factory TracksModel.fromMap(Map<String, dynamic> map) {
+    factory TracksModel.fromMap(String id, Map<String, dynamic> map) {
         return TracksModel(
             id: map['id'],
             name: map['name'],

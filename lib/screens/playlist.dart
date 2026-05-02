@@ -24,7 +24,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
     // direct user to details page to view more info on the specific playlist
     void _viewDetails(BuildContext context, String _docId, PlaylistModel _playlist) {
-        print(_docId);
         Navigator.push(
             context,
             MaterialPageRoute( builder: (context) => PlaylistDetailsPage( docId: _docId, playlist: _playlist), )

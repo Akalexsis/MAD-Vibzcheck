@@ -48,11 +48,11 @@ class TracksService {
         await tracksRef.doc(docId).collection("tracks").add(track.toMap());
     }
 
-    // TO-DO - GET LIST OF TRACKS FROM FIRESTORE
-    // Stream<QuerySnapshot> getTracks() {
-    //     final queue = tracksRef.snapshots();
-    //     return queue;
-    // }
+    // get list of tracks from firestore
+    Stream<QuerySnapshot> getTracks( String docId ) {
+        final queue = tracksRef.doc(docId).collection("tracks").snapshots();
+        return queue;
+    }
 
     // update vote count
 }

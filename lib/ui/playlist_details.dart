@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/tracks_model.dart';
 import '../service/tracks_service.dart';
 import '../model/playlist_model.dart';
@@ -23,6 +24,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     late PlaylistModel playlist;
     late String docId;
     List<TracksModel> tracks = []; // render list of searched tracks
+    List<TracksModel> queue = []; // FOR TESTING - render songs in playlist
     String errors = '';
     final TextEditingController _searchController = TextEditingController();
 
@@ -54,7 +56,8 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     // add song to playlist
     Future<void> _addSong( TracksModel track ) async {
         try {
-            // await _trackService.addTrack(docId, track);
+            await _trackService.addTrack(docId, track);
+            setState(() { _searchController.text = ''; });
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text('Successfully added ${track.name} to playlist'),
@@ -121,6 +124,56 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                         Text("Up Next:", style: TextStyle( fontSize: 24 )),
 
                         // TO-DO - RENDER LIST OF SONGS IN QUEUE
+                        StreamBuilder<QuerySnapshot>(
+                            stream: _trackService.getTracks(docId),
+                            builder: (context, snapshot) {
+                                // render loading symbol if still waiting for response from firestore
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const Center(child: CircularProgressIndicator());
+                                }
+                                // error handling
+                                if (snapshot.hasError) {
+                                    return Center(child: Text('Error: ${snapshot.error}'));
+                                }
+                                // store all playlists returned from database
+                                final docs = snapshot.data?.docs ?? [];
+                                
+                                // State 4: Collection is empty
+                                if (docs.isEmpty) {
+                                    return const Center(child: Text('No tracks yet.'));
+                                }
+
+                                // return list of items if everything goes correctly
+                                return SingleChildScrollView(
+                                    child: ListView.builder(
+                                        itemCount: docs.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                        
+                                        // convert returned tracks to object flutter can use
+                                        final track = TracksModel.fromMap(
+                                            docs[index].id,
+                                            docs[index].data() as Map<String, dynamic>,
+                                        );
+
+                                        return Column(
+                                            children: [
+                                                ListTile(
+                                                    leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
+                                                    title: Text(track.name, style: TextStyle(fontSize: 18) ),
+                                                    subtitle: Text(track.artist, style: TextStyle(fontSize: 18, color: Colors.grey) ),
+                                                    // trailing: IconButton(
+                                                    //     icon: Icon(Icons.add),
+                                                    //     onPressed: () { _addSong(track); },
+                                                    // )
+                                                ),
+                                            ]
+                                        );
+                                        }
+                                    ),
+                                );
+                            }
+                        ),
                         ],
                     ),
                 )
