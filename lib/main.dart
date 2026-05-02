@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'ui/navigation.dart';
+import 'screens/register.dart';
+import 'screens/login.dart';
+import 'service/tracks_service.dart';
+import 'api_config.dart';
+import 'screens/tracks.dart';
 
 void main() async {
-	WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform, );
-	
-	runApp(const MyApp());
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    // needed to get the access token to make Spotify API calls
+    await AccessToken().getToken();
+
+    runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
