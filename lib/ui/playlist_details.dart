@@ -12,7 +12,8 @@ import '../service/playlist_service.dart';
 
 class PlaylistDetailsPage extends StatefulWidget {
     final PlaylistModel playlist; 
-    const PlaylistDetailsPage({super.key, required this.playlist});
+    final String docId;
+    const PlaylistDetailsPage({super.key, required this.docId, required this.playlist});
 
     @override
     State<PlaylistDetailsPage> createState() => _PlaylistDetailsPageState();
@@ -20,6 +21,7 @@ class PlaylistDetailsPage extends StatefulWidget {
 
 class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     late PlaylistModel playlist;
+    late String docId;
     List<TracksModel> tracks = []; // render list of searched tracks
     String errors = '';
     final TextEditingController _searchController = TextEditingController();
@@ -30,6 +32,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     @override
     void initState() {
         playlist = widget.playlist;
+        docId = widget.docId;
         super.initState();
     }
 
@@ -51,7 +54,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     // add song to playlist
     Future<void> _addSong( TracksModel track ) async {
         try {
-            await _trackService.addTrack(track);
+            // await _trackService.addTrack(docId, track);
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text('Successfully added ${track.name} to playlist'),

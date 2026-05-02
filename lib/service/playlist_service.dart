@@ -13,8 +13,9 @@ class PlaylistService{
     // get all playlists created by a specific user
 
     // add new playlist for specific user
-    Future<void> addPlaylist(PlaylistModel playlist) async {
-        await playlistRef.add(playlist.toMap());
+    Future<String> addPlaylist(PlaylistModel playlist) async {
+        final newPlaylist = await playlistRef.add(playlist.toMap());
+        return newPlaylist.id;
     }
 
     Stream<QuerySnapshot> getPlaylists() {

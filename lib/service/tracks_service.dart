@@ -11,7 +11,7 @@ import '../api_config.dart';
 
 class TracksService {
     final AccessToken _token = AccessToken(); 
-    final CollectionReference tracksRef = FirebaseFirestore.instance.collection('tracks');
+    final CollectionReference tracksRef = FirebaseFirestore.instance.collection('playlists');
 
     static final _searchUrl = Uri.parse('https://api.spotify.com/v1/search'); // spotify search endpoint
 
@@ -44,15 +44,15 @@ class TracksService {
     }
 
     // save requested song to database and add to session queue
-    Future<void> addTrack( TracksModel track ) async {
-        await tracksRef.add(track.toMap());
+    Future<void> addTrack( String docId, TracksModel track ) async {
+        await tracksRef.doc(docId).collection("tracks").add(track.toMap());
     }
 
     // TO-DO - GET LIST OF TRACKS FROM FIRESTORE
-    Stream<QuerySnapshot> getTracks() {
-        final queue = tracksRef.snapshots();
-        return queue;
-    }
+    // Stream<QuerySnapshot> getTracks() {
+    //     final queue = tracksRef.snapshots();
+    //     return queue;
+    // }
 
     // update vote count
 }

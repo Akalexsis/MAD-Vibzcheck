@@ -23,10 +23,11 @@ class _PlaylistPageState extends State<PlaylistPage> {
     static PlaylistService _playlistService = PlaylistService();
 
     // direct user to details page to view more info on the specific playlist
-    void _viewDetails(BuildContext context, PlaylistModel _playlist) {
+    void _viewDetails(BuildContext context, String _docId, PlaylistModel _playlist) {
+        print(_docId);
         Navigator.push(
             context,
-            MaterialPageRoute( builder: (context) => PlaylistDetailsPage( playlist: _playlist), )
+            MaterialPageRoute( builder: (context) => PlaylistDetailsPage( docId: _docId, playlist: _playlist), )
         );
     }   
 
@@ -76,7 +77,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                     style: TextStyle( fontSize:12 ),
                                 ),
                                 // allow user to view playlist details on navigate
-                                onTap: () { _viewDetails(context, playlist); }
+                                onTap: () { _viewDetails(context, docs[index].id, playlist); }
 
                             ),
                         ]

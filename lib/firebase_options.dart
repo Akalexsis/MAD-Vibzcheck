@@ -53,11 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAvjhgdrbV0t2sumFWyITiE_YUNloOJQnw',
-    appId: '1:1052064859280:web:78e9226088ebe803d30415',
-    messagingSenderId: '1052064859280',
-    projectId: 'mad-vibz-project',
-    authDomain: 'mad-vibz-project.firebaseapp.com',
-    storageBucket: 'mad-vibz-project.firebasestorage.app',
+    apiKey: 'AIzaSyBLBSAjFD7Gl8t6ipFLhhryUC-fAtRIYAk',
+    appId: '1:812698514265:web:1cbe36add6771201fcd248',
+    messagingSenderId: '812698514265',
+    projectId: 'mad-vibez',
+    authDomain: 'mad-vibez.firebaseapp.com',
+    storageBucket: 'mad-vibez.firebasestorage.app',
   );
+
 }
