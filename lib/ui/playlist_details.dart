@@ -77,14 +77,16 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         late TracksModel updatedTrack;
         int _votes = currTrack.votes;
 
-        // prevent negative votes
-        if ( _votes == 0 ) return; 
+        
 
         if ( option == 'increase') { 
             _votes++;
             updatedTrack = currTrack.copyWith( votes: _votes ); 
         }
-        else if ( option == "decrease") {  
+        else if ( option == "decrease") { 
+            // prevent negative votes
+            if ( _votes == 0 ) return;  
+            
             _votes--;
             updatedTrack = currTrack.copyWith( votes: _votes ); 
         }
@@ -118,7 +120,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                             ),
                         ),
                         ),
-                        // render list of tracks from search
+                        // RENDER LIST OF TRACKS FROM SEARCH
                         ListView.builder(
                             itemCount: tracks.length,
                             shrinkWrap: true,

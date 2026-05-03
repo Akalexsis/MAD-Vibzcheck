@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
 import '../service/auth_service.dart';
-import 'dashboard.dart';
+import '../ui/navigation.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -29,7 +29,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   // use authentication service to create new user
   void _register( BuildContext context, String _email, String _password ) async {
     try {
-      await _service.register( _email.trim(), _password.trim() );
+      await _service.register( _email.trim().toLowerCase() , _password );
       _toDashboard(context);
     } catch (error) {
      setState(() { errors = 'There was an error creating your account'; });
@@ -45,7 +45,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
     Navigator.pushAndRemoveUntil( // prevent returning to landing page
       context,
-      MaterialPageRoute( builder: (context) => Dashboard(), ),
+      MaterialPageRoute( builder: (context) => MyNavigation(), ),
       (route) => false,
     );
   }

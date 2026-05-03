@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String errors = '';
-  final _key = GlobalKey<FormState>();
 
+  final _key = GlobalKey<FormState>();
   // initialize authentication service to use service methods
   final AuthService _service = AuthService();
 
@@ -24,18 +24,20 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // use authentication service to create new user
-  Future<void> _login( BuildContext context, String _email, String _password ) async {
+  Future<void> _login( BuildContext context, String email, String password ) async {
+    email = email.trim().toLowerCase();
+
     try {
-      await _service.login( _email.trim(), _password.trim() );
+      await _service.login( email, password );
       _toDashboard(context);
     } catch (error) {
-      setState(() { errors = "There was an error loggin you in"; });
+      print(error);
+      setState(() { errors = 'There was an error logging you in'; });
     }
   }
 
   // navigates user to dashboard
   void _toDashboard(BuildContext context) {
-    // reset form
     _emailController.clear();
     _passwordController.clear();
 
@@ -115,9 +117,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 ElevatedButton(
                   onPressed: () {
-                  if (_key.currentState!.validate()) { 
-                    _login(context, _emailController.text, _passwordController.text);
-                  }
+                  if (_key.currentState!.validate()) { _login(context, _emailController.text, _passwordController.text); }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple,
