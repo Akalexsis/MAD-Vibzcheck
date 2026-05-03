@@ -24,7 +24,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     late PlaylistModel playlist;
     late String docId;
     List<TracksModel> tracks = []; // render list of searched tracks
-    List<TracksModel> queue = []; // FOR TESTING - render songs in playlist
+
     String errors = '';
     final TextEditingController _searchController = TextEditingController();
 
@@ -73,9 +73,23 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     }
 
     // change vote count
-    void _changeVote( String option, TracksModel currTrack ) {
-        // if ( option == 'increase') { currTrack["votes"]++;}
-        // else if ( option == "decrease") {  currTrack["votes"]--;}
+    void _changeVote( String option, String trackId, TracksModel currTrack ) {
+        late TracksModel updatedTrack;
+        int _votes = currTrack.votes;
+
+        // prevent negative votes
+        if ( _votes == 0 ) return; 
+
+        if ( option == 'increase') { 
+            _votes++;
+            updatedTrack = currTrack.copyWith( votes: _votes ); 
+        }
+        else if ( option == "decrease") {  
+            _votes--;
+            updatedTrack = currTrack.copyWith( votes: _votes ); 
+        }
+        
+        _trackService.updateVote(docId, trackId, updatedTrack );
     }
 
     @override
@@ -125,7 +139,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                         ),
                         SizedBox(height: 30),
 
-                        // TO-DO - ADD LISTENERS
+                        // TO-DO - ADD NUMBER OF LISTENERS AND NUMBER OF TRACKS
 
                         Text("Up Next:", style: TextStyle( fontSize: 24 )),
 
@@ -167,18 +181,18 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                                 ListTile(
                                                     leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
                                                     title: Text(track.name, style: TextStyle(fontSize: 18) ),
-                                                    subtitle: Text(track.artist, style: TextStyle(fontSize: 18, color: Colors.grey) ),
+                                                    subtitle: Text(track.artist, style: TextStyle(fontSize: 12, color: Colors.grey) ),
                                                     trailing: Row( // render voting options
                                                         mainAxisSize: MainAxisSize.min,
                                                         children:[ 
                                                             Text("${track.votes}", style: TextStyle( fontSize: 12 )),
                                                             IconButton(
                                                                 icon: Icon(Icons.arrow_upward_outlined),
-                                                                onPressed: () { _changeVote("increase", track); },
+                                                                onPressed: () { _changeVote("increase", docs[index].id, track); },
                                                             ),
                                                             IconButton(
                                                                 icon: Icon(Icons.arrow_downward_outlined),
-                                                                onPressed: () {  _changeVote("decrease", track); },
+                                                                onPressed: () {  _changeVote("decrease", docs[index].id, track); },
                                                             ),
                                                         ]
                                                     )

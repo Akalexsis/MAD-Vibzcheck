@@ -50,12 +50,12 @@ class TracksService {
 
     // get list of tracks from firestore
     Stream<QuerySnapshot> getTracks( String docId ) {
-        final queue = tracksRef.doc(docId).collection("tracks").orderBy("votes").snapshots();
+        final queue = tracksRef.doc(docId).collection("tracks").orderBy("votes", descending: true).snapshots();
         return queue;
     }
 
     // update vote count
     Future<void> updateVote( String docId, String trackId, TracksModel track ) async {
-        await tracksRef.doc(docId).collection("tracks").doc(trackId).update(track.toMap());
+        await tracksRef.doc(docId).collection("tracks").doc(trackId).update(track.toMap()); // TO-DO - FIX VOTE UPDATE
     }
 }
