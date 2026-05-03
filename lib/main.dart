@@ -27,10 +27,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0x5F021F),
+        ),
+        // scaffoldBackgroundColor: const Color(0x5F021F),
       ),
-      home: PlaylistPage(),
+      debugShowCheckedModeBanner: false,
+      home: MyNavigation(),
     );
   }
   

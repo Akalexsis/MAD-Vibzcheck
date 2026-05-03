@@ -41,6 +41,7 @@ class _DashboardState extends State<Dashboard> {
             body: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         Text("Home", style: TextStyle( fontSize: 32, )),
                         SizedBox(height: 16),
@@ -55,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
                             child: Icon(Icons.add)
                         ),
 
-                        Text("Recent Sessions", style: TextStyle( fontSize: 24, )),
+                        Text("Recent Sessions: ", style: TextStyle( fontSize: 24, )),
                         StreamBuilder<QuerySnapshot>(
                             stream: _playlistService.getPlaylists(),
                             builder: (context, snapshot) {
@@ -76,38 +77,31 @@ class _DashboardState extends State<Dashboard> {
                                 }
 
                                 // return list of items if everything goes correctly
-                                return ListView.builder(
-                                    itemCount: docs.length,
-                                    itemBuilder: (context, index) {
-                                    
-                                    // convert returned playlist to object flutter can use
-                                    final playlist = PlaylistModel.fromMap(
-                                        docs[index].id,
-                                        docs[index].data() as Map<String, dynamic>,
-                                    );
-
-                                    return Row(
-                                        children: [
-                                            ListTile(
-                                                leading: Icon(Icons.image),
-                                                title: Text(
-                                                    playlist.sessionName,
-                                                    style: TextStyle( fontSize:18 ),
-                                                ),
-                                                subtitle: Text(
-                                                    playlist.desc ?? 'Contains ', // BUG-FIX list artists, moods, or genres if no desc
-                                                    style: TextStyle( fontSize:12 ),
-                                                ),
-                                                // allow user to view playlist details on navigate
-                                                onTap: () { _viewDetails(context, docs[index].id, playlist); }
-
-                                            ),
-                                        ]
-                                    );
-
+                                return Container(
+                                    height: 200,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: docs.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
                                         
-                                    
-                                    }
+                                        // convert returned playlist to object flutter can use
+                                        final playlist = PlaylistModel.fromMap(
+                                            docs[index].id,
+                                            docs[index].data() as Map<String, dynamic>,
+                                        );
+
+                                        return SizedBox(
+                                            width: 200,
+                                            child: ListTile(
+                                                    title: Icon(Icons.image), 
+                                                    subtitle: Text(playlist.sessionName, style: TextStyle(fontSize: 12, color: Colors.grey) ),
+                                                    // TO-DO - ADD NUMBER OF SONGS IN SESSION AND IF TRACK IS SUGGESTIED
+                                                    onTap: () { _viewDetails(context, docs[index].id, playlist); }
+                                                ),
+                                            );
+                                        }
+                                    )
                                 );
                             }
                         ),
