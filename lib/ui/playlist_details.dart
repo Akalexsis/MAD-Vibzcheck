@@ -86,7 +86,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         else if ( option == "decrease") { 
             // prevent negative votes
             if ( _votes == 0 ) return;  
-            
+
             _votes--;
             updatedTrack = currTrack.copyWith( votes: _votes ); 
         }
@@ -128,7 +128,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                 final track = tracks[index];
 
                                 return ListTile(
-                                    leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
+                                    leading: Image.network(track.image, fit: BoxFit.cover,), // TO-DO - ADD IMAGE PROVIDED
                                     title: Text(track.name, style: TextStyle(fontSize: 18) ),
                                     subtitle: Text(track.artist, style: TextStyle(fontSize: 18, color: Colors.grey) ),
                                     trailing: IconButton(
@@ -181,7 +181,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                         return Column(
                                             children: [
                                                 ListTile(
-                                                    leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
+                                                    leading: Image.network(track.image, fit: BoxFit.cover,), // TO-DO - ADD IMAGE PROVIDED
                                                     title: Text(track.name, style: TextStyle(fontSize: 18) ),
                                                     subtitle: Text(track.artist, style: TextStyle(fontSize: 12, color: Colors.grey) ),
                                                     trailing: Row( // render voting options

@@ -1,12 +1,15 @@
 /*
+  Author - Kayla Thornton
   Purpose - Initialize firebase and give user login options
  */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/register.dart';
 import 'screens/login.dart';
 import 'api_config.dart';
+import 'ui/navigation.dart'; // TO-DO - DELETE TESTING ONLY
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +29,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Vibz MAD Project',
-      home: MyHomePage(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0x5F021F),
+        ),
+        // scaffoldBackgroundColor: const Color(0x5F021F),
+      ),
+      debugShowCheckedModeBanner: false,
+      home: MyNavigation(),
     );
   }
 }

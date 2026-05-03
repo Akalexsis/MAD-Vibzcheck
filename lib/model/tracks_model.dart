@@ -8,14 +8,14 @@ class TracksModel {
     final String? id;
     final String name;
     final String artist;
-    final String? image;
+    final String image;
     final int votes;
 
     TracksModel({
         this.id,
         required this.name,
         required this.artist,
-        this.image,
+        required this.image,
         this.votes = 0 // default value
     });
 
