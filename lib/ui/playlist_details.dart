@@ -72,6 +72,12 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         }
     }
 
+    // change vote count
+    void _changeVote( String option, TracksModel currTrack ) {
+        // if ( option == 'increase') { currTrack["votes"]++;}
+        // else if ( option == "decrease") {  currTrack["votes"]--;}
+    }
+
     @override
     Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +129,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
 
                         Text("Up Next:", style: TextStyle( fontSize: 24 )),
 
-                        // TO-DO - RENDER LIST OF SONGS IN QUEUE
+                        // RENDER LIST OF SONGS IN QUEUE
                         StreamBuilder<QuerySnapshot>(
                             stream: _trackService.getTracks(docId),
                             builder: (context, snapshot) {
@@ -143,7 +149,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                     return const Center(child: Text('No tracks yet.'));
                                 }
 
-                                // return list of items if everything goes correctly
+                                // LIST OF TRACKS IN PLAYLIST
                                 return SingleChildScrollView(
                                     child: ListView.builder(
                                         itemCount: docs.length,
@@ -162,10 +168,20 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                                     leading: Icon(Icons.image), // TO-DO - ADD IMAGE PROVIDED
                                                     title: Text(track.name, style: TextStyle(fontSize: 18) ),
                                                     subtitle: Text(track.artist, style: TextStyle(fontSize: 18, color: Colors.grey) ),
-                                                    // trailing: IconButton(
-                                                    //     icon: Icon(Icons.add),
-                                                    //     onPressed: () { _addSong(track); },
-                                                    // )
+                                                    trailing: Row( // render voting options
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children:[ 
+                                                            Text("${track.votes}", style: TextStyle( fontSize: 12 )),
+                                                            IconButton(
+                                                                icon: Icon(Icons.arrow_upward_outlined),
+                                                                onPressed: () { _changeVote("increase", track); },
+                                                            ),
+                                                            IconButton(
+                                                                icon: Icon(Icons.arrow_downward_outlined),
+                                                                onPressed: () {  _changeVote("decrease", track); },
+                                                            ),
+                                                        ]
+                                                    )
                                                 ),
                                             ]
                                         );

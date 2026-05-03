@@ -9,7 +9,7 @@ class TracksModel {
     final String name;
     final String artist;
     final String? image;
-    final int? votes;
+    final int votes;
 
     TracksModel({
         this.id,
@@ -49,6 +49,17 @@ class TracksModel {
             artist: json["artists"][0]["name"], // handle if list of artists
             image: json["album"]["images"][0]["url"],
             votes: 0
+        );
+    }
+
+     // copywith - creates copy of updated values
+    TracksModel copyWith({String? id, String? name, String? artist, String? image, int? votes }) {
+        return TracksModel(
+            id: id ?? this.id,
+            name: name ?? this.name,
+            artist: artist ?? this.artist,
+            image: image ?? this.image,
+            votes: votes ?? this.votes,
         );
     }
 }
