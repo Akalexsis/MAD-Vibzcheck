@@ -9,7 +9,6 @@ import 'firebase_options.dart';
 import 'screens/register.dart';
 import 'screens/login.dart';
 import 'api_config.dart';
-import 'ui/navigation.dart'; // TO-DO - DELETE TESTING ONLY
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,16 +37,16 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.purple,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-            // elevation: 0,
-            // textStyle: TextStyle( fontSize: 18 ),
-            // foregroundColor: Colors.white
+            elevation: 0,
+            textStyle: TextStyle( fontSize: 18 ),
+            foregroundColor: Colors.white
           ),
         )
         
         // scaffoldBackgroundColor: const Color(0x5F021F),
       ),
       debugShowCheckedModeBanner: false,
-      home: MyNavigation(),
+      home: MyHomePage(),
     );
   }
 }
