@@ -31,6 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: Row( 
+                children: [
+                    Icon(Icons.image),
+                    Text('Profile', style: TextStyle( fontSize: 32 )),
+                ]
+            )
+      ),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(

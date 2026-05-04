@@ -38,21 +38,29 @@ class _DashboardState extends State<Dashboard> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            appBar: AppBar( 
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: Row( 
+                children: [
+                    Icon(Icons.image),
+                    Text("Home", style: TextStyle( fontSize: 32 )),
+                    ]
+                ) 
+            ),
             body: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                        Text("Home", style: TextStyle( fontSize: 32, )),
                         SizedBox(height: 16),
 
                         // direct users to form page to create new session
                         ElevatedButton(
                             onPressed: () { _createSession(context); },
-                            style: ElevatedButton.styleFrom( 
-                                backgroundColor: Colors.purple, 
-                                foregroundColor: Colors.white
-                            ),
+                            // style: ElevatedButton.styleFrom( 
+                            //     backgroundColor: Colors.purple, 
+                            //     foregroundColor: Colors.white
+                            // ),
                             child: Icon(Icons.add)
                         ),
 

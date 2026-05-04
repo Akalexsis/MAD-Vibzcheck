@@ -32,8 +32,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0x5F021F),
+          seedColor: Colors.purple,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.purple,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+            // elevation: 0,
+            // textStyle: TextStyle( fontSize: 18 ),
+            // foregroundColor: Colors.white
+          ),
+        )
+        
         // scaffoldBackgroundColor: const Color(0x5F021F),
       ),
       debugShowCheckedModeBanner: false,

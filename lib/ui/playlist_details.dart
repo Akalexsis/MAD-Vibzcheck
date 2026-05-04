@@ -97,16 +97,23 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     @override
     Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar( title: Text('') ),
+        appBar: AppBar( 
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: Row( 
+                children: [
+                    Icon(Icons.image),
+                    Text(playlist.sessionName, style: TextStyle( fontSize: 32 )),
+                    ]
+                ) 
+        ),
         body: Padding(
             padding: EdgeInsets.all(16),
             child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                        Text(playlist.sessionName, style: TextStyle( fontSize: 24 )),
                         Text(playlist.desc.isEmpty ? '' : playlist.desc, style: TextStyle( fontSize: 18 )),
-                        SizedBox(height: 50),
+                        SizedBox(height: 16),
 
                         // SEARCH FIELD
                         TextFormField(
