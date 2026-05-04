@@ -89,13 +89,13 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         _trackService.updateTrack(docId, trackId, updatedTrack );
 
         // TO-DO - GET REC IF LISTEN MORE THAN 5 TIMES
-        // if (_listens >= 5 ) { _getArtistRec( updatedTrack.artistId ); }
+        if (_listens >= 5 ) { _getArtistRec( updatedTrack.artistId ); }
     }
 
     // add song to track recommendations list
     Future<void> _getArtistRec( String artistId ) async {
         try {
-            // await _trackService.getArtistRec(artistId);
+            await _trackService.getArtistRec(artistId);
         } catch (error) {
             print('Error saving track to firestore');
         }

@@ -60,32 +60,37 @@ class TracksService {
     }
 
     // get track recommendations
-    // Future<void> getArtistRec( String artistId ) async {
-    //     static final _artistUrl = Uri.parse('https://api.spotify.com/v1/artists/$artistId/top-tracks');
-    //     final accessToken = await _token.token;
+    Future<void> getArtistRec( String artistId ) async {
+        final _artistUrl = Uri.parse('https://api.spotify.com/v1/artists/$artistId/albums');
+        final accessToken = await _token.token;
 
-    //     final uri = _searchUrl.replace(queryParameters: {
-    //         'id': '$artistId',
-    //     });
+        final uri = _artistUrl.replace(queryParameters: {
+            'id': '$artistId',
+        });
 
-    //     final response = await http.get(
-    //         uri,
-    //         headers: { "Authorization": "Bearer  $accessToken" }
-    //     );
+        final response = await http.get(
+            uri,
+            headers: { "Authorization": "Bearer  $accessToken" }
+        );
 
-    //     // throw an error if fetch unsuccessful
-    //     if ( response.statusCode != 200 ) {
-    //         throw Exception('Request for ${artistId} unsuccessful');
-    //     }
+        // throw an error if fetch unsuccessful
+        if ( response.statusCode != 200 ) {
+            throw Exception('Request for ${artistId} unsuccessful');
+        }
 
-    //     final body = json.decode(response.body);
-    //     final List data = body["tracks"]["items"] as List<dynamic>;
-    //     // convert each item in list to dart object
-    //     data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
-    //     print(data);
+        final body = json.decode(response.body);
+        final List data = body["tracks"]["items"] as List<dynamic>;
+        print(body);
+        // convert each item in list to dart object
+        data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
+        print(data);
 
-    //     // TO-DO - ADD EACH TRACK TO FIRESTORE
-    // }
+        // TO-DO - ADD EACH TRACK TO FIRESTORE
+        for (int i = 0; i < data.length; i++) {
+            TracksModel item = data[i];
+            addTrackRec( item );
+        }
+    }
 
     // add track recommendations to firestore
     Future<void> addTrackRec( TracksModel track ) async {
