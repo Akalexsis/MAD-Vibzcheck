@@ -10,8 +10,9 @@ Follow these steps to run the app:
 - Run "flutter run" in your terminal
 
 ## App Navigation
-- Home tab - create a new listening session, join an existing session, or view recommended tracks based on listening
-- Playlists tab - view all sessions
+- Home tab - create a new listening session, join an existing session, or view recommended tracks based on listening. 
+- Playlists tab - view all sessions. click on a session to add tracks, view tracks, "play" a track (by clicking on it), and vote on the order to play tracks (tracks with the most votes will be at the top of the queue).
+- - Tracks that have been played often are used for suggested listening. 
 - Profile - view user information and set app preferences
 
 ## Known Issues
