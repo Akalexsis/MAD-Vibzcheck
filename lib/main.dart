@@ -1,97 +1,135 @@
+/*
+  Author - Kayla Thornton
+  Purpose - Initialize firebase and give user login options
+ */
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'firebase_options.dart';
-import 'theme/vibz_theme.dart';
-import 'screens/auth/login_screen.dart';
-import 'screens/lobby/lobby_screen.dart';
+import 'screens/register.dart';
+import 'screens/login.dart';
+import 'api_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String? startupError;
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } catch (e) {
-    startupError = e.toString();
-  }
-  runApp(VibzcheckApp(startupError: startupError));
+  await Firebase.initializeApp( options: DefaultFirebaseOptions.currentPlatform, );
+
+  // needed to get the access token to make Spotify API calls
+  await AccessToken().getToken();
+
+  runApp(const MyApp());
 }
 
-class VibzcheckApp extends StatelessWidget {
-  const VibzcheckApp({super.key, this.startupError});
-
-  final String? startupError;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vibez',
+      title: 'Vibz MAD Project',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.purple,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.purple,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+            elevation: 0,
+            textStyle: TextStyle( fontSize: 18 ),
+            foregroundColor: Colors.white
+          ),
+        )
+        
+        // scaffoldBackgroundColor: const Color(0x5F021F),
+      ),
       debugShowCheckedModeBanner: false,
-      theme: vibzTheme,
-      home: startupError == null
-          ? const AuthGate()
-          : StartupErrorScreen(error: startupError!),
+      home: MyHomePage(),
     );
   }
 }
 
-class StartupErrorScreen extends StatelessWidget {
-  const StartupErrorScreen({super.key, required this.error});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
 
-  final String error;
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  void _toLogin(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => LoginPage(),
+      ),
+    );
+  }
+
+  void _toRegistration(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => RegistrationPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Center(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.error_outline_rounded, size: 44),
-              const SizedBox(height: 12),
-              const Text(
-                'Firebase failed to initialize',
-                style: TextStyle(fontWeight: FontWeight.w700),
+              Text('VIBEZ', style: TextStyle( fontSize: 32 ) ),
+              SizedBox(height: 20),
+
+              Text('Sign-in or create a new account to get started', style: TextStyle( fontSize: 18 )),
+              SizedBox(height: 20),
+
+              ElevatedButton(
+                onPressed: () { _toLogin(context); },
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child: Text("Login", style: TextStyle( fontSize: 18 )),
               ),
-              const SizedBox(height: 8),
-              Text(error, textAlign: TextAlign.center),
-              const SizedBox(height: 12),
-              const Text(
-                'Verify android/app/google-services.json matches your applicationId and then run flutter clean + flutter run.',
-                textAlign: TextAlign.center,
+              SizedBox(height: 16),
+
+              ElevatedButton(
+                onPressed: () { _toRegistration(context); },
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                ),
+                child: Text("Create Account", style: TextStyle( fontSize: 18 )),
               ),
             ],
           ),
         ),
-      ),
+      )
+      
     );
   }
 }
 
-/// Realtime auth bridge: Lobby when signed in, minimal login/register otherwise.
-class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-        if (snapshot.data != null) {
-          return const LobbyScreen();
-        }
-        return const LoginScreen();
-      },
-    );
-  }
-}
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+
+//   // This widget is the home page of your application. It is stateful, meaning
+//   // that it has a State object (defined below) that contains fields that affect
+//   // how it looks.
+
+//   // This class is the configuration for the state. It holds the values (in this
+//   // case the title) provided by the parent (in this case the App widget) and
+//   // used by the build method of the State. Fields in a Widget subclass are
+//   // always marked "final".
+
+//   final String title;
+
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
