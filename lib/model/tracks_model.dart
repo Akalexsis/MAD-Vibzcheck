@@ -8,6 +8,7 @@ class TracksModel {
     final String? id;
     final String name;
     final String artist;
+    final String artistId;
     final String image;
     final int votes;
     final int listens;
@@ -16,6 +17,7 @@ class TracksModel {
         this.id,
         required this.name,
         required this.artist,
+        this.artistId = '',
         required this.image,
         this.votes = 0, // default value
         this.listens = 0,
@@ -27,6 +29,7 @@ class TracksModel {
             'id': id,
             'name': name,
             'artist': artist,
+            'artistId': artistId,
             'image': image,
             'votes': votes,
             'listens': listens
@@ -39,6 +42,7 @@ class TracksModel {
             id: map['id'],
             name: map['name'],
             artist: map['artist'],
+            artistId: map['artistId'],
             image: map['image'],
             votes: map['votes'],
             listens: map['listens']
@@ -51,6 +55,7 @@ class TracksModel {
             id: json["id"],
             name: json["name"],
             artist: json["artists"][0]["name"], // handle if list of artists
+            artistId: json["artists"][0]["id"],
             image: json["album"]["images"][0]["url"],
             votes: 0,
             listens: 0
@@ -58,11 +63,12 @@ class TracksModel {
     }
 
      // copywith - creates copy of updated values
-    TracksModel copyWith({String? id, String? name, String? artist, String? image, int? votes, int? listens }) {
+    TracksModel copyWith({String? id, String? name, String? artist, String? artistId, String? image, int? votes, int? listens }) {
         return TracksModel(
             id: id ?? this.id,
             name: name ?? this.name,
             artist: artist ?? this.artist,
+            artistId: artistId ?? this.artistId,
             image: image ?? this.image,
             votes: votes ?? this.votes,
             listens: listens ?? this.listens

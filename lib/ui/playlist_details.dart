@@ -87,8 +87,6 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
 
         updatedTrack = _track.copyWith( votes: _vote, listens: _listens ); 
         _trackService.updateTrack(docId, trackId, updatedTrack );
-
-        print("Vote: $_vote, listens: $_listens, updated model: ${updatedTrack}");
     }
 
     // change vote count
