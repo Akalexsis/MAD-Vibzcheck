@@ -38,7 +38,6 @@ class TracksService {
 
         final body = json.decode(response.body);
         final List data = body["tracks"]["items"] as List<dynamic>;
-
         // convert each item in list to dart object
         return data.map((track) => TracksModel.fromJson(track as Map<String, dynamic>)).toList();
     }
@@ -54,8 +53,8 @@ class TracksService {
         return queue;
     }
 
-    // update vote count
-    Future<void> updateVote( String docId, String trackId, TracksModel track ) async {
-        await tracksRef.doc(docId).collection("tracks").doc(trackId).update(track.toMap()); // TO-DO - FIX VOTE UPDATE
+    // update track and store in firestore
+    Future<void> updateTrack( String docId, String trackId, TracksModel track ) async {
+        await tracksRef.doc(docId).collection("tracks").doc(trackId).update(track.toMap());
     }
 }

@@ -10,13 +10,15 @@ class TracksModel {
     final String artist;
     final String image;
     final int votes;
+    final int listens;
 
     TracksModel({
         this.id,
         required this.name,
         required this.artist,
         required this.image,
-        this.votes = 0 // default value
+        this.votes = 0, // default value
+        this.listens = 0,
     });
 
     // convert object to track record to upload into database
@@ -26,7 +28,8 @@ class TracksModel {
             'name': name,
             'artist': artist,
             'image': image,
-            'votes': votes
+            'votes': votes,
+            'listens': listens
         };
     }
 
@@ -37,7 +40,8 @@ class TracksModel {
             name: map['name'],
             artist: map['artist'],
             image: map['image'],
-            votes: map['votes']
+            votes: map['votes'],
+            listens: map['listens']
         );
     }
 
@@ -48,18 +52,20 @@ class TracksModel {
             name: json["name"],
             artist: json["artists"][0]["name"], // handle if list of artists
             image: json["album"]["images"][0]["url"],
-            votes: 0
+            votes: 0,
+            listens: 0
         );
     }
 
      // copywith - creates copy of updated values
-    TracksModel copyWith({String? id, String? name, String? artist, String? image, int? votes }) {
+    TracksModel copyWith({String? id, String? name, String? artist, String? image, int? votes, int? listens }) {
         return TracksModel(
             id: id ?? this.id,
             name: name ?? this.name,
             artist: artist ?? this.artist,
             image: image ?? this.image,
             votes: votes ?? this.votes,
+            listens: listens ?? this.listens
         );
     }
 }

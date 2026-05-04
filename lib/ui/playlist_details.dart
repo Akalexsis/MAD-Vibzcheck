@@ -22,10 +22,11 @@ class PlaylistDetailsPage extends StatefulWidget {
 
 class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     late PlaylistModel playlist;
-    late String docId;
+    late String docId; // playlist document id (passed from previous screen)
     List<TracksModel> tracks = []; // render list of searched tracks
 
     String errors = '';
+    TracksModel currPlaying = TracksModel(name: '', artist: '', image: '',);
     final TextEditingController _searchController = TextEditingController();
 
     static TracksService _trackService = TracksService();
@@ -72,12 +73,28 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
         }
     }
 
+    // display track currently being played, reset vote count, and increase listen count
+    void _playTrack( String trackId, TracksModel _track ) {
+        late TracksModel updatedTrack;
+        int _vote = _track.votes;
+        int _listens = _track.listens;
+
+        setState(() { currPlaying = _track; });
+
+        // reset vote count and increase listen count
+        _vote = 0;
+        _listens++;
+
+        updatedTrack = _track.copyWith( votes: _vote, listens: _listens ); 
+        _trackService.updateTrack(docId, trackId, updatedTrack );
+
+        print("Vote: $_vote, listens: $_listens, updated model: ${updatedTrack}");
+    }
+
     // change vote count
     void _changeVote( String option, String trackId, TracksModel currTrack ) {
         late TracksModel updatedTrack;
         int _votes = currTrack.votes;
-
-        
 
         if ( option == 'increase') { 
             _votes++;
@@ -91,7 +108,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
             updatedTrack = currTrack.copyWith( votes: _votes ); 
         }
         
-        _trackService.updateVote(docId, trackId, updatedTrack );
+        _trackService.updateTrack(docId, trackId, updatedTrack );
     }
 
     @override
@@ -148,11 +165,16 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                         ),
                         SizedBox(height: 30),
 
-                        // TO-DO - ADD NUMBER OF LISTENERS AND NUMBER OF TRACKS
-
-                        Text("Up Next:", style: TextStyle( fontSize: 24 )),
-
+                        // RENDER CURRENTLY PLAYING SONG
+                        Text("Now Playing:", style: TextStyle( fontSize: 24 )),
+                        ListTile(
+                            leading: Image.network(currPlaying.image, fit: BoxFit.cover,),
+                            title: Text(currPlaying.name, style: TextStyle(fontSize: 18) ),
+                            subtitle: Text(currPlaying.artist, style: TextStyle(fontSize: 12, color: Colors.grey) ),
+                        ),
+                        
                         // RENDER LIST OF SONGS IN QUEUE
+                        Text("Up Next:", style: TextStyle( fontSize: 24 )),
                         StreamBuilder<QuerySnapshot>(
                             stream: _trackService.getTracks(docId),
                             builder: (context, snapshot) {
@@ -204,7 +226,8 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                                                                 onPressed: () {  _changeVote("decrease", docs[index].id, track); },
                                                             ),
                                                         ]
-                                                    )
+                                                    ),
+                                                    onTap: () { _playTrack(docs[index].id,track); }
                                                 ),
                                             ]
                                         );
