@@ -26,7 +26,7 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
     List<TracksModel> tracks = []; // render list of searched tracks
 
     String errors = '';
-    TracksModel currPlaying = TracksModel(name: '', artist: '', image: '',);
+    TracksModel currPlaying = TracksModel(name: '', artist: '', image: 'https://www.vecteezy.com/vector-art/21664043-photo-vector-outline-icons-simple-stock-illustration-stock',);
     final TextEditingController _searchController = TextEditingController();
 
     static TracksService _trackService = TracksService();
@@ -87,6 +87,18 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
 
         updatedTrack = _track.copyWith( votes: _vote, listens: _listens ); 
         _trackService.updateTrack(docId, trackId, updatedTrack );
+
+        // TO-DO - GET REC IF LISTEN MORE THAN 5 TIMES
+        // if (_listens >= 5 ) { _getArtistRec( updatedTrack.artistId ); }
+    }
+
+    // add song to track recommendations list
+    Future<void> _getArtistRec( String artistId ) async {
+        try {
+            // await _trackService.getArtistRec(artistId);
+        } catch (error) {
+            print('Error saving track to firestore');
+        }
     }
 
     // change vote count
@@ -166,7 +178,12 @@ class _PlaylistDetailsPageState extends State<PlaylistDetailsPage> {
                         // RENDER CURRENTLY PLAYING SONG
                         Text("Now Playing:", style: TextStyle( fontSize: 24 )),
                         ListTile(
-                            leading: Image.network(currPlaying.image, fit: BoxFit.cover,),
+                            leading: Image.network(
+                                currPlaying.image, fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                        return Text('');
+                                    },
+                                ),
                             title: Text(currPlaying.name, style: TextStyle(fontSize: 18) ),
                             subtitle: Text(currPlaying.artist, style: TextStyle(fontSize: 12, color: Colors.grey) ),
                         ),

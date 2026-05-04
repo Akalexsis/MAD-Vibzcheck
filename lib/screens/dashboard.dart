@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/playlist_model.dart';
 import '../service/playlist_service.dart';
+import '../model/tracks_model.dart';
+import '../service/tracks_service.dart';
 import '../ui/playlist_details.dart';
 import '../ui/session_form.dart';
 
@@ -18,6 +20,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
     static PlaylistService _playlistService = PlaylistService();
+    static TracksService _trackService = TracksService();
 
     // navigates user to session form to create a new listening session
     void _createSession(BuildContext context) {
@@ -49,7 +52,8 @@ class _DashboardState extends State<Dashboard> {
             ),
             body: Padding(
                 padding: EdgeInsets.all(16),
-                child: Column(
+                child: SingleChildScrollView(
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         SizedBox(height: 16),
@@ -113,8 +117,65 @@ class _DashboardState extends State<Dashboard> {
                                 );
                             }
                         ),
+                        SizedBox(height: 20),
+
+                        // RENDER RECOMMENDED TRACKS
+                        Text("Recommended Tracks Based on Listening: ", style: TextStyle( fontSize: 24, )),
+                        StreamBuilder<QuerySnapshot>(
+                            stream: _trackService.getTrackRecs(),
+                            builder: (context, snapshot) {
+                                // render loading symbol if still waiting for response from firestore
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const Center(child: CircularProgressIndicator());
+                                }
+                                // error handling
+                                if (snapshot.hasError) {
+                                    return Center(child: Text('Error: ${snapshot.error}'));
+                                }
+                                // store all playlists returned from database
+                                final docs = snapshot.data?.docs ?? [];
+                                
+                                // State 4: Collection is empty
+                                if (docs.isEmpty) {
+                                    return const Center(child: Text('No playlists yet.'));
+                                }
+
+                                // return list of items if everything goes correctly
+                                return Container(
+                                    height: 200,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: docs.length,
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                        
+                                        // convert returned playlist to object flutter can use
+                                        final track = TracksModel.fromMap(
+                                            docs[index].id,
+                                            docs[index].data() as Map<String, dynamic>,
+                                        );
+
+                                        return SizedBox(
+                                            width: 200,
+                                            child: ListTile(
+                                                    title: Icon(Icons.image), 
+                                                    subtitle: Column(
+                                                        children: [
+                                                            Text(track.name, style: TextStyle(fontSize: 18, ) ),
+                                                            Text(track.artist, style: TextStyle(fontSize: 12, color: Colors.grey) ),
+                                                            ]
+                                                        )
+                                                    // TO-DO - FAVORITE/ SAVE TRACK
+                                                ),
+                                            );
+                                        }
+                                    )
+                                );
+                            }
+                        ),
                     ],
                 ),
+                )
             ),
         );
     }
