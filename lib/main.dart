@@ -20,10 +20,11 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class VibzcheckApp extends StatelessWidget {
+  const VibzcheckApp({super.key, this.startupError});
 
-  // This widget is the root of your application.
+  final String? startupError;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

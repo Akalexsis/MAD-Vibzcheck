@@ -1,16 +1,12 @@
-# mad_vibz
+# Vibez
 
-A new Flutter project.
+This project collaborative music app was developed for the Mobile App Development course. This app allows users to create a new listening session where they can vote on which songs they'd like to listen to. 
 
-## Getting Started
+## App Setup
 
-This project is a starting point for a Flutter application.
+Follow these steps to run the app:
+- Clone this repository
+- Commit changes
+- Run "flutter run" in your terminal
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## App Navigation
